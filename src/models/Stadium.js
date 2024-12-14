@@ -10,6 +10,7 @@ const StadiumSchema = new mongoose.Schema(
   },
   {
     collection: "stadiums",
+    versionKey: false,
   }
 );
 
