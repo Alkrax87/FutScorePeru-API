@@ -2,13 +2,13 @@
   "name": "api-scorepe",
   "version": "1.0.0",
   "description": "API para resultados de fútbol peruano.",
-  "main": "app.js",
+  "main": "./src/server.js",
   "scripts": {
-    "test": "nodemon /src/app.js"
+    "dev": "nodemon ./src/server.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Alkrax87/API-ScorePe.git"
+    "url": "https://github.com/Alkrax87/API-ScorePe.git"
   },
   "keywords": [
     "API"
@@ -20,7 +20,9 @@
   },
   "homepage": "https://github.com/Alkrax87/API-ScorePe#readme",
   "dependencies": {
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "mongoose": "^8.9.0",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
