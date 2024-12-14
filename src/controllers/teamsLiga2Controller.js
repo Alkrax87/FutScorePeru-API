@@ -1,8 +1,8 @@
-const TeamLiga1 = require("../models/TeamLiga1");
+const TeamLiga2 = require("../models/TeamLiga2");
 
 const getAllTeams = async (req, res) => {
   try {
-    const teams = await TeamLiga1.find();
+    const teams = await TeamLiga2.find();
     res.status(200).json(teams);
   } catch (error) {
     console.error(error);
@@ -13,7 +13,7 @@ const getAllTeams = async (req, res) => {
 const getTeamByTeamId = async (req, res) => {
   try {
     const { teamId } = req.params;
-    const team = await TeamLiga1.findOne({ teamId });
+    const team = await TeamLiga2.findOne({ teamId });
     if (!team) {
       return res.status(404).json({ message: "Equipo no encontrado" });
     }

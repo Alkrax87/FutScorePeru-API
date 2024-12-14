@@ -30,8 +30,9 @@ mongoose
   .catch((err) => console.error("Error al conectar a MongoDB", err));
 
 // Rutas
-app.use("/api/teams", require("./routes/teams"));
-app.use("/api/stadiums", require("./routes/stadiums"));
+app.use("/api/teams/l1/", require("./routes/routesTeamsLiga1"));
+app.use("/api/teams/l2/", require("./routes/routesTeamsLiga2"));
+app.use("/api/stadiums", require("./routes/routesStadiums"));
 
 // Manejo de errores
 app.use((req, res, next) => {
