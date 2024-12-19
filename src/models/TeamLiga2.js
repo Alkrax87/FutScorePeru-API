@@ -15,7 +15,7 @@ const TeamLiga2Schema = new mongoose.Schema(
     color: {
       c1: { type: String, required: true },
       c2: { type: String, required: true },
-      c3: { type: String, required: true },
+      c3: { type: String, required: false },
     },
     stadium: {
       url: { type: String, required: true },
