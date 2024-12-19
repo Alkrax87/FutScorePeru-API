@@ -16,7 +16,7 @@ const getManagerByTeamId = async (req, res) => {
     const { teamId } = req.params;
     let managers = await Manager.find({ teamId });
     managers = managers.reverse();
-    if (!managers) {
+    if (managers.length === 0) {
       return res.status(404).json({ message: "Técnicos no encontrados" });
     }
     res.status(200).json(managers);
