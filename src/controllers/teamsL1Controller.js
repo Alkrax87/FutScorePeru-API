@@ -1,6 +1,6 @@
 const TeamL1 = require("../models/TeamL1");
 
-const getAllTeams = async (req, res) => {
+const getAllTeamsL1 = async (req, res) => {
   try {
     const teams = await TeamL1.find();
     res.status(200).json(teams);
@@ -10,7 +10,7 @@ const getAllTeams = async (req, res) => {
   }
 };
 
-const getTeamByTeamId = async (req, res) => {
+const getTeamL1ByTeamId = async (req, res) => {
   try {
     const { teamId } = req.params;
     const team = await TeamL1.findOne({ teamId });
@@ -24,7 +24,7 @@ const getTeamByTeamId = async (req, res) => {
   }
 };
 
-const createTeam = async (req, res) => {
+const createTeamL1 = async (req, res) => {
   try {
     const newTeam = await TeamL1.create(req.body);
     res.status(201).json(newTeam);
@@ -34,7 +34,7 @@ const createTeam = async (req, res) => {
   }
 };
 
-const updateTeam = async (req, res) => {
+const updateTeamL1 = async (req, res) => {
   try {
     const { teamId } = req.params;
     const updatedTeam = await TeamL1.findOneAndUpdate({ teamId });
@@ -48,7 +48,7 @@ const updateTeam = async (req, res) => {
   }
 };
 
-const deleteTeam = async (req, res) => {
+const deleteTeamL1 = async (req, res) => {
   try {
     const { teamId } = req.params;
     const deletedTeam = await TeamL1.findOneAndDelete(
@@ -67,9 +67,9 @@ const deleteTeam = async (req, res) => {
 };
 
 module.exports = {
-  getAllTeams,
-  getTeamByTeamId,
-  createTeam,
-  updateTeam,
-  deleteTeam,
+  getAllTeamsL1,
+  getTeamL1ByTeamId,
+  createTeamL1,
+  updateTeamL1,
+  deleteTeamL1,
 };
