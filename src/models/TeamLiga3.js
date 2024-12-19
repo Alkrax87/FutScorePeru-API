@@ -33,7 +33,10 @@ const TeamLiga3Schema = new mongoose.Schema(
       url: { type: String, required: true },
     },
   },
-  { collection: "teamsLiga3" }
+  {
+    collection: "teamsLiga3",
+    versionKey: false,
+  }
 );
 
 module.exports = mongoose.model("TeamLiga3", TeamLiga3Schema);
