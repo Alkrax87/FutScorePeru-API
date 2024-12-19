@@ -1,8 +1,8 @@
-const TeamLiga1 = require("../models/TeamLiga1");
+const TeamL1 = require("../models/TeamL1");
 
 const getAllTeams = async (req, res) => {
   try {
-    const teams = await TeamLiga1.find();
+    const teams = await TeamL1.find();
     res.status(200).json(teams);
   } catch (error) {
     console.error(error);
@@ -13,7 +13,7 @@ const getAllTeams = async (req, res) => {
 const getTeamByTeamId = async (req, res) => {
   try {
     const { teamId } = req.params;
-    const team = await TeamLiga1.findOne({ teamId });
+    const team = await TeamL1.findOne({ teamId });
     if (!team) {
       return res.status(404).json({ message: "Equipo no encontrado" });
     }
@@ -26,7 +26,7 @@ const getTeamByTeamId = async (req, res) => {
 
 const createTeam = async (req, res) => {
   try {
-    const newTeam = await TeamLiga1.create(req.body);
+    const newTeam = await TeamL1.create(req.body);
     res.status(201).json(newTeam);
   } catch (error) {
     console.error(error);
@@ -37,7 +37,7 @@ const createTeam = async (req, res) => {
 const updateTeam = async (req, res) => {
   try {
     const { teamId } = req.params;
-    const updatedTeam = await TeamLiga1.findOneAndUpdate({ teamId });
+    const updatedTeam = await TeamL1.findOneAndUpdate({ teamId });
     if (!updatedTeam) {
       return res.status(404).json({ message: "Equipo no encontrado" });
     }
@@ -51,7 +51,7 @@ const updateTeam = async (req, res) => {
 const deleteTeam = async (req, res) => {
   try {
     const { teamId } = req.params;
-    const deletedTeam = await TeamLiga1.findOneAndDelete(
+    const deletedTeam = await TeamL1.findOneAndDelete(
       { teamId },
       req.body,
       { new: true }

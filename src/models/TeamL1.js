@@ -1,9 +1,8 @@
 const mongoose = require("mongoose");
 
-const TeamLiga3Schema = new mongoose.Schema(
+const TeamL1Schema = new mongoose.Schema(
   {
     category: { type: String, required: true },
-    group: { type: String, required: true },
     teamId: { type: String, unique: true, required: true },
     name: { type: String, required: true },
     abbreviation: { type: String, required: true },
@@ -34,9 +33,9 @@ const TeamLiga3Schema = new mongoose.Schema(
     },
   },
   {
-    collection: "teamsLiga3",
+    collection: "teamsLiga1",
     versionKey: false,
   }
 );
 
-module.exports = mongoose.model("TeamLiga3", TeamLiga3Schema);
+module.exports = mongoose.model("TeamL1", TeamL1Schema);
