@@ -39,6 +39,9 @@ app.use("/api/lastgames/l3/", require("./routes/routesLastGamesL3"));
 app.use("/api/performance/l1/", require("./routes/routesPerformanceL1"));
 app.use("/api/performance/l2/", require("./routes/routesPerformanceL2"));
 app.use("/api/performance/l3/", require("./routes/routesPerformanceL3"));
+app.use("/api/results/l1/", require("./routes/routesResultsL1"));
+app.use("/api/results/l2/", require("./routes/routesResultsL2"));
+app.use("/api/results/l3/", require("./routes/routesResultsL3"));
 app.use("/api/stadiums", require("./routes/routesStadiums"));
 app.use("/api/managers", require("./routes/routesManagers"));
 
