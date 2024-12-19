@@ -32,6 +32,7 @@ mongoose
 // Rutas
 app.use("/api/teams/l1/", require("./routes/routesTeamsLiga1"));
 app.use("/api/teams/l2/", require("./routes/routesTeamsLiga2"));
+app.use("/api/teams/l3/", require("./routes/routesTeamsLiga3"));
 app.use("/api/stadiums", require("./routes/routesStadiums"));
 app.use("/api/managers", require("./routes/routesManagers"));
 
