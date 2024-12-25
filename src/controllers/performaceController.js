@@ -43,7 +43,7 @@ const createPerformance = async (req, res) => {
     }
     const newPerformance = new model(req.body);
     await newPerformance.save();
-    return res.status(200).json(newPerformance);
+    return res.status(201).json(newPerformance);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Ocurrió un error al obtener la información" });
@@ -62,7 +62,7 @@ const deletePerformance = async (req, res) => {
     if (!deletePerformance) {
       return res.status(404).json({ error: "Información no encontrada" });
     }
-    return res.status(200).json({ message: "Información eliminada correctamente"})
+    return res.status(204).json({ message: "Información eliminada correctamente"})
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Ocurrió un error al obtener la información" });

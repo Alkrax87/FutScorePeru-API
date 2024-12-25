@@ -30,7 +30,7 @@ const createStadium = async (req, res) => {
     await newStadium.save();
     res.status(201).json(newStadium);
   } catch (error) {
-    console.error("Error al crear el estadio:", error);
+    console.error(error);
     res.status(500).json({ message: "Error al crear el estadio" });
   }
 };
@@ -48,7 +48,7 @@ const updateStadium = async (req, res) => {
     }
     res.status(200).json(updatedTeam);
   } catch (error) {
-    console.error("Error al actualizar el estadio:", error);
+    console.error(error);
     res.status(500).json({ message: "Error al actualizar el estadio" });
   }
 };
@@ -60,9 +60,9 @@ const deleteStadium = async (req, res) => {
     if (!deletedStadium) {
       return res.status(404).json({ message: "Estadio no encontrado" });
     }
-    res.status(200).json({ message: "Estadio eliminado correctamente" });
+    res.status(204).json({ message: "Estadio eliminado correctamente" });
   } catch (error) {
-    console.error("Error al elimnar el estadio:", error);
+    console.error(error);
     res.status(500).json({ message: "Error al elimnar el estadio" });
   }
 };

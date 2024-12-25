@@ -50,7 +50,7 @@ const updateManagerByManagerId = async (req, res) => {
     }
     res.status(200).json(updatedManager);
   } catch (error) {
-    console.error("Error al actualizar el técnico:", error);
+    console.error(error);
     res.status(500).json({ message: "Error al actualizar el técnico" });
   }
 };
@@ -62,7 +62,7 @@ const deleteManager = async (req, res) => {
     if (!deletedManager) {
       return res.status(404).json({ message: "Técnico no encontrado" });
     }
-    res.status(200).json({ message: "Técnico eliminado correctamente" });
+    res.status(204).json({ message: "Técnico eliminado correctamente" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error al eliminar un técnicos" });

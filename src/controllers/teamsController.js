@@ -43,7 +43,7 @@ const createTeam = async (req, res) => {
     }
     const newTeam = new model(req.body);
     await newTeam.save();
-    return res.status(200).json(newTeam);
+    return res.status(201).json(newTeam);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Ocurrió un error al obtener la información" });
@@ -62,7 +62,7 @@ const deleteTeam = async (req, res) => {
     if (!deletedTeam) {
       return res.status(404).json({ error: "Equipo no encontrado" });
     }
-    return res.status(200).json({ message: "Equipo eliminado correctamente" });
+    return res.status(204).json({ message: "Equipo eliminado correctamente" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Ocurrió un error al obtener la información" });
