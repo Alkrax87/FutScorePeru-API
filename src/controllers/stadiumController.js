@@ -3,10 +3,10 @@ const Stadium = require("../models/Stadium");
 const getAllStadiums = async (req, res) => {
   try {
     const stadiums = await Stadium.find();
-    res.status(200).json(stadiums);
+    return res.status(200).json(stadiums);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al obtener los estadios" });
+    return res.status(500).json({ message: "Error al obtener los estadios" });
   }
 };
 
@@ -17,10 +17,10 @@ const getStadiumsByStadiumId = async (req, res) => {
     if (!stadium) {
       return res.status(404).json({ message: "Estadio no encontrado" });
     }
-    res.status(200).json(stadium);
+    return res.status(200).json(stadium);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al obtener los estadios" });
+    return res.status(500).json({ message: "Error al obtener los estadios" });
   }
 };
 
@@ -28,10 +28,10 @@ const createStadium = async (req, res) => {
   try {
     const newStadium = new Stadium(req.body);
     await newStadium.save();
-    res.status(201).json(newStadium);
+    return res.status(201).json(newStadium);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al crear el estadio" });
+    return res.status(500).json({ message: "Error al crear el estadio" });
   }
 };
 
@@ -46,10 +46,10 @@ const updateStadium = async (req, res) => {
     if (!updatedTeam) {
       return res.status(404).json({ message: "Estadio no encontrado" });
     }
-    res.status(200).json(updatedTeam);
+    return res.status(200).json(updatedTeam);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al actualizar el estadio" });
+    return res.status(500).json({ message: "Error al actualizar el estadio" });
   }
 };
 
@@ -60,10 +60,10 @@ const deleteStadium = async (req, res) => {
     if (!deletedStadium) {
       return res.status(404).json({ message: "Estadio no encontrado" });
     }
-    res.status(204).json({ message: "Estadio eliminado correctamente" });
+    return res.status(204).json({ message: "Estadio eliminado correctamente" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al elimnar el estadio" });
+    return res.status(500).json({ message: "Error al elimnar el estadio" });
   }
 };
 

@@ -11,7 +11,7 @@ const getAllLastGames = async (req, res) => {
     return res.status(200).json(lastGamesData);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 };
 
@@ -27,10 +27,10 @@ const getAllLastGamesById = async (req, res) => {
     if (!lastgames) {
       return res.status(404).json({ error: `Información no encontrada para el teamId "${teamId}"` });
     }
-    res.status(200).json(lastgames);
+    return res.status(200).json(lastgames);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 };
 
@@ -46,7 +46,7 @@ const createLastGames = async (req, res) => {
     return res.status(201).json(newLastGames);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 };
 
@@ -79,7 +79,7 @@ const changeLastGamesByTeamId = async (req, res) => {
     }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 }
 
@@ -98,7 +98,7 @@ const deleteLastGames = async (req, res) => {
     return res.status(204).json({ message: "Información eliminada correctamente" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 };
 

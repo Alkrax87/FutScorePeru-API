@@ -11,7 +11,7 @@ const getAllTeams = async (req, res) => {
     return res.status(200).json(teamsData);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 };
 
@@ -30,7 +30,7 @@ const getTeamById = async (req, res) => {
     return res.status(200).json(team);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 };
 
@@ -46,7 +46,7 @@ const createTeam = async (req, res) => {
     return res.status(201).json(newTeam);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 };
 
@@ -65,7 +65,7 @@ const deleteTeam = async (req, res) => {
     return res.status(204).json({ message: "Equipo eliminado correctamente" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 };
 

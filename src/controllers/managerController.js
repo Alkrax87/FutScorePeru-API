@@ -4,10 +4,10 @@ const getAllManagers = async (req, res) => {
   try {
     let managers = await Manager.find();
     managers = managers.reverse();
-    res.status(200).json(managers);
+    return res.status(200).json(managers);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al obtener Técnicos" });
+    return res.status(500).json({ message: "Error al obtener Técnicos" });
   }
 };
 
@@ -19,10 +19,10 @@ const getManagerByTeamId = async (req, res) => {
     if (managers.length === 0) {
       return res.status(404).json({ message: "Técnicos no encontrados" });
     }
-    res.status(200).json(managers);
+    return res.status(200).json(managers);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al obtener técnicos" });
+    return res.status(500).json({ message: "Error al obtener técnicos" });
   }
 };
 
@@ -30,10 +30,10 @@ const createManager = async (req, res) => {
   try {
     const newManager = new Manager(req.body);
     await newManager.save();
-    res.status(201).json(newManager);
+    return res.status(201).json(newManager);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al crear un técnicos" });
+    return res.status(500).json({ message: "Error al crear un técnicos" });
   }
 };
 
@@ -48,10 +48,10 @@ const updateManagerByManagerId = async (req, res) => {
     if (!updatedManager) {
       return res.status(404).json({ message: "Técnico no encontrado" });
     }
-    res.status(200).json(updatedManager);
+    return res.status(200).json(updatedManager);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al actualizar el técnico" });
+    return res.status(500).json({ message: "Error al actualizar el técnico" });
   }
 };
 
@@ -62,10 +62,10 @@ const deleteManager = async (req, res) => {
     if (!deletedManager) {
       return res.status(404).json({ message: "Técnico no encontrado" });
     }
-    res.status(204).json({ message: "Técnico eliminado correctamente" });
+    return res.status(204).json({ message: "Técnico eliminado correctamente" });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Error al eliminar un técnicos" });
+    return res.status(500).json({ message: "Error al eliminar un técnicos" });
   }
 };
 

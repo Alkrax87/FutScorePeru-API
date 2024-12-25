@@ -11,7 +11,7 @@ const getAllPerformance = async (req, res) => {
     return res.status(200).json(performanceData);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 };
 
@@ -30,7 +30,7 @@ const getAllPerformanceById = async (req, res) => {
     return res.status(200).json(performance);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 }
 
@@ -46,7 +46,7 @@ const createPerformance = async (req, res) => {
     return res.status(201).json(newPerformance);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 }
 
@@ -65,7 +65,7 @@ const deletePerformance = async (req, res) => {
     return res.status(204).json({ message: "Información eliminada correctamente"})
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
   }
 }
 
