@@ -1,20 +1,9 @@
-const lastGamesL1 = require("../models/lastGamesL1");
-const lastGamesL2 = require("../models/lastGamesL2");
-const lastGamesL3 = require("../models/lastGamesL3");
-
-function validateDivision(division) {
-  const divisionMap = {
-    l1: lastGamesL1,
-    l2: lastGamesL2,
-    l3: lastGamesL3,
-  };
-  return divisionMap[division];
-}
+const { validateDivisionForLastGames } = require("../utils/validateDivision");
 
 const getAllLastGames = async (req, res) => {
   try {
     const { division } = req.params;
-    const model = validateDivision(division);
+    const model = validateDivisionForLastGames(division);
     if (!model) {
       return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
     }
@@ -30,7 +19,7 @@ const getAllLastGamesById = async (req, res) => {
   try {
     const { division } = req.params;
     const { teamId } = req.params;
-    const model = validateDivision(division);
+    const model = validateDivisionForLastGames(division);
     if (!model) {
       return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
     }
@@ -48,7 +37,7 @@ const getAllLastGamesById = async (req, res) => {
 const createLastGames = async (req, res) => {
   try {
     const { division } = req.params;
-    const model = validateDivision(division);
+    const model = validateDivisionForLastGames(division);
     if (!model) {
       return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
     }
@@ -67,7 +56,7 @@ const changeLastGamesByTeamId = async (req, res) => {
     const { teamId } = req.params;
     const { destination } = req.params;
     const { option } = req.params;
-    const model = validateDivision(division);
+    const model = validateDivisionForLastGames(division);
     if (!model) {
       return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
     }
@@ -98,7 +87,7 @@ const deleteLastGames = async (req, res) => {
   try {
     const { division } = req.params;
     const { teamId } = req.params;
-    const model = validateDivision(division);
+    const model = validateDivisionForLastGames(division);
     if (!model) {
       return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
     }
