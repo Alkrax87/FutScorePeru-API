@@ -15,7 +15,7 @@ const getAllPerformance = async (req, res) => {
   }
 };
 
-const getAllPerformanceById = async (req, res) => {
+const getPerformanceByTeamId = async (req, res) => {
   try {
     const { division } = req.params;
     const { teamId } = req.params;
@@ -71,7 +71,7 @@ const deletePerformance = async (req, res) => {
 
 module.exports = {
   getAllPerformance,
-  getAllPerformanceById,
+  getPerformanceByTeamId,
   createPerformance,
   deletePerformance,
 };

@@ -10,7 +10,7 @@ const getAllStadiums = async (req, res) => {
   }
 };
 
-const getStadiumsByStadiumId = async (req, res) => {
+const getStadiumByStadiumId = async (req, res) => {
   try {
     const { stadiumId } = req.params;
     const stadium = await Stadium.findOne({ stadiumId });
@@ -69,7 +69,7 @@ const deleteStadium = async (req, res) => {
 
 module.exports = {
   getAllStadiums,
-  getStadiumsByStadiumId,
+  getStadiumByStadiumId,
   createStadium,
   deleteStadium,
   updateStadium,

@@ -3,7 +3,7 @@ const router = express.Router();
 const lastGamesController = require("../controllers/lastGamesController");
 
 router.get("/:division", lastGamesController.getAllLastGames);
-router.get("/:division/:teamId", lastGamesController.getAllLastGamesById);
+router.get("/:division/:teamId", lastGamesController.getLastGamesByTeamId);
 router.post("/:division/", lastGamesController.createLastGames);
 router.put("/:division/:teamId/:destination/:option", lastGamesController.changeLastGamesByTeamId);
 router.delete("/:division/:teamId", lastGamesController.deleteLastGames);

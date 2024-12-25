@@ -15,7 +15,7 @@ const getAllResults = async (req, res) => {
   }
 };
 
-const getAllResultsById = async (req, res) => {
+const getResultsByTeamId = async (req, res) => {
   try {
     const { division } = req.params;
     const { teamId } = req.params;
@@ -71,7 +71,7 @@ const deleteResult = async (req, res) => {
 
 module.exports = {
   getAllResults,
-  getAllResultsById,
+  getResultsByTeamId,
   createResult,
   deleteResult,
 };

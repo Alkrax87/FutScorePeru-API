@@ -15,7 +15,7 @@ const getAllLastGames = async (req, res) => {
   }
 };
 
-const getAllLastGamesById = async (req, res) => {
+const getLastGamesByTeamId = async (req, res) => {
   try {
     const { division } = req.params;
     const { teamId } = req.params;
@@ -104,7 +104,7 @@ const deleteLastGames = async (req, res) => {
 
 module.exports = {
   getAllLastGames,
-  getAllLastGamesById,
+  getLastGamesByTeamId,
   createLastGames,
   changeLastGamesByTeamId,
   deleteLastGames,
