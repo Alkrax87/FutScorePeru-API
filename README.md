@@ -9,9 +9,10 @@ El objetivo principal de esta API es servir como una herramienta personal para e
 ## Tecnologías utilizadas
 
 - **Node.js** y **Express**: Para construir la API.
-- **MongoDB**: Base de datos para almacenar información sobre los partidos, equipos, y otros detalles.
 - **Nodemon**: Para reiniciar el servidor durante el desarrollo.
 - **Morgan**: Para registrar solicitudes HTTP.
+- **MongoDB**: Base de datos para almacenar información sobre los partidos, equipos, resultados y otros detalles.
+- **Mongoose**: Para modelar los datos de MongoDB en JS e interactuar con la base de datos.
 
 ## Características principales
 
@@ -23,7 +24,7 @@ El objetivo principal de esta API es servir como una herramienta personal para e
 
 - Node.js v16 o superior.
 - MongoDB v5 o superior.
-- Gestor de paquetes npm o yarn.
+- Gestor de paquetes npm.
 
 ## Instalación
 
@@ -49,12 +50,26 @@ El objetivo principal de esta API es servir como una herramienta personal para e
    ```bash
    npm run dev
    ```
+## Variables de entorno
+
+Establecer un archivo de variables de entorno `.env` con los soguientes parámetros.
+
+- **MONGO_USER**: Usuario de mongoDB que se relaciona con la base de datos.
+- **MONGO_PASSWORD**: Contraseña del usuario de mongoDB.
+- **MONGO_SERVER**: Dirección IP del servidor de mongoDB.
+- **MONGO_PORT**: Puerto del servidor mongoDB.
+- **MONGO_DATABASE**: Nombre de la base de datos.
+- **PORT**: Puerto donde se ejecuta el servidor Express.
 
 ## Uso
 
 - Endpoints disponibles:
+  - `GET /api/teams`: Obtiene información de los equipos..
+  - `GET /api/lastgames`: Obtiene la información de los ultimos partidos.
+  - `GET /api/performance`: Obtiene las estadísticas de los equipos.
   - `GET /api/results`: Obtiene los resultados de los partidos.
-  - `GET /api/images/:id`: Obtiene una imagen relacionada con un equipo o partido.
+  - `GET /api/stadium`: Obtiene información de los estadios.
+  - `GET /api/managers`: Obtiene información de los tecnicos.
 
 ## Estructura del proyecto
 
@@ -75,13 +90,6 @@ project/
 ├── package.json
 └── README.md
 ```
-
-## Notas
-
-- Esta API es de uso personal, pero su estructura permite futuras ampliaciones.
-- En caso de convertirse en un servicio público, se considerará un modelo de monetización por suscripción o pago por consulta.
-
----
 
 ## Licencia
 
