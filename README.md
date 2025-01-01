@@ -13,6 +13,7 @@ El objetivo principal de esta API es servir como una herramienta personal para e
 - **Morgan**: Para registrar solicitudes HTTP.
 - **MongoDB**: Base de datos para almacenar información sobre los partidos, equipos, resultados y otros detalles.
 - **Mongoose**: Para modelar los datos de MongoDB en JS e interactuar con la base de datos.
+- **Multer**: Para gestionar imagenes en la API.
 
 ## Características principales
 
