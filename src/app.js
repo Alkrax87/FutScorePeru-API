@@ -2,11 +2,19 @@ const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
 const mongoose = require("mongoose");
+const cors = require("cors");
 require("dotenv").config();
 
 const app = express();
 
+// CORS
+const corsOptions = {
+  origin: 'http://localhost:4200',
+  methods: ['GET', 'POST', 'PUT', 'DELETE']
+}
+
 // Middlewares
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(morgan("dev"));
 app.use(express.static(path.join(__dirname, "../public")));
