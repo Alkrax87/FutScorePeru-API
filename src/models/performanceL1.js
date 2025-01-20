@@ -23,7 +23,7 @@ const performanceL1Schema = new mongoose.Schema(
       gc: { type: Number, default: 0 },
       dg: { type: Number, default: 0 },
     },
-    saction: { type: Number, default: null },
+    sanction: { type: Number, default: null },
   },
   {
     collection: "performanceL1",
