@@ -13,8 +13,7 @@ const TeamL1Schema = new mongoose.Schema(
     location: { type: String, required: true },
     color: {
       c1: { type: String, required: true },
-      c2: { type: String, required: true },
-      c3: { type: String, required: false },
+      c2: { type: String, required: false },
     },
     stadium: {
       url: { type: String, required: true },
