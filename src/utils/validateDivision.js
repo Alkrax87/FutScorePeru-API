@@ -4,6 +4,9 @@ const teamsL3 = require("../models/TeamL3");
 const lastGamesL1 = require("../models/lastGamesL1");
 const lastGamesL2 = require("../models/lastGamesL2");
 const lastGamesL3 = require("../models/lastGamesL3");
+const managerL1 = require("../models/managerL1");
+const managerL2 = require("../models/managerL2");
+const managerL3 = require("../models/managerL3");
 const performanceL1 = require("../models/performanceL1");
 const performanceL2 = require("../models/performanceL2");
 const performanceL3 = require("../models/performanceL3");
@@ -43,10 +46,19 @@ function validateDivisionForResults(division) {
   };
   return results[division];
 }
+function validateDivisionForManagers(division) {
+  const results = {
+    l1: managerL1,
+    l2: managerL2,
+    l3: managerL3,
+  };
+  return results[division];
+}
 
 module.exports = {
   validateDivisionForTeams,
   validateDivisionForLastGames,
   validateDivisionForPerformance,
   validateDivisionForResults,
+  validateDivisionForManagers,
 }

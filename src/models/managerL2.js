@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const ManagerSchema = new mongoose.Schema(
+const ManagersL2Schema = new mongoose.Schema(
   {
     managerId: { type: Number, required: true },
     teamId: { type: String, required: true },
@@ -9,9 +9,9 @@ const ManagerSchema = new mongoose.Schema(
     photo: { type: String, required: true },
   },
   {
-    collection: "managers",
+    collection: "managersL2",
     versionKey: false,
   }
 );
 
-module.exports = mongoose.model("Manager", ManagerSchema);
+module.exports = mongoose.model("ManagersL2", ManagersL2Schema);
