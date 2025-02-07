@@ -45,6 +45,7 @@ app.use("/api/results", require("./routes/routesResults"))
 app.use("/api/stadiums", require("./routes/routesStadiums"));
 app.use("/api/managers", require("./routes/routesManagers"));
 app.use("/api/statistics", require("./routes/routesStatistics"));
+app.use("/api/fixture", require("./routes/routesFixture"));
 
 // Manejo de errores
 app.use((req, res, next) => {

@@ -13,6 +13,9 @@ const performanceL3 = require("../models/performanceL3");
 const resultsL1 = require("../models/resultsL1");
 const resultsL2 = require("../models/resultsL2");
 const resultsL3 = require("../models/resultsL3");
+const fixtureL1 = require("../models/fixtureL1");
+const fixtureL2 = require("../models/fixtureL2");
+const fixtureL3 = require("../models/fixtureL3");
 
 function validateDivisionForTeams(division) {
   const teamsMap = {
@@ -22,6 +25,7 @@ function validateDivisionForTeams(division) {
   };
   return teamsMap[division];
 }
+
 function validateDivisionForLastGames(division) {
   const lastGamesMap = {
     l1: lastGamesL1,
@@ -30,6 +34,7 @@ function validateDivisionForLastGames(division) {
   };
   return lastGamesMap[division];
 }
+
 function validateDivisionForPerformance(division) {
   const performanceMap = {
     l1: performanceL1,
@@ -38,6 +43,7 @@ function validateDivisionForPerformance(division) {
   };
   return performanceMap[division];
 }
+
 function validateDivisionForResults(division) {
   const results = {
     l1: resultsL1,
@@ -46,11 +52,21 @@ function validateDivisionForResults(division) {
   };
   return results[division];
 }
+
 function validateDivisionForManagers(division) {
   const results = {
     l1: managerL1,
     l2: managerL2,
     l3: managerL3,
+  };
+  return results[division];
+}
+
+function validateDivisionForFixture(division) {
+  const results = {
+    l1: fixtureL1,
+    l2: fixtureL2,
+    l3: fixtureL3,
   };
   return results[division];
 }
@@ -61,4 +77,5 @@ module.exports = {
   validateDivisionForPerformance,
   validateDivisionForResults,
   validateDivisionForManagers,
-}
+  validateDivisionForFixture,
+};
