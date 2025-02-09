@@ -7,7 +7,7 @@ const getFixture = async (req, res) => {
     if (!model) {
       return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
     }
-    const fixtureData = await model.find();
+    const fixtureData = await model.findOne();
     return res.status(200).json(fixtureData);
   } catch (error) {
     console.error(error);
