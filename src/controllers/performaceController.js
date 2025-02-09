@@ -1,4 +1,5 @@
 const { validateDivisionForPerformance } = require("../utils/validateDivision");
+const { calculatePerformance } = require("../utils/performanceCalculator");
 
 const getAllPerformance = async (req, res) => {
   try {
@@ -7,7 +8,14 @@ const getAllPerformance = async (req, res) => {
     if (!model) {
       return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
     }
-    const performanceData = await model.find();
+    const resultsData = await model.find();
+    const divisionStages = {
+      l1: ["apertura", "clausura", "acumulado"],
+      l2: ["regional", "grupos"],
+      l3: ["regular", "final"],
+    };
+    const stages = divisionStages[division];
+    const performanceData = calculatePerformance(resultsData, stages[0], stages[1], stages[2]);
     return res.status(200).json(performanceData);
   } catch (error) {
     console.error(error);
