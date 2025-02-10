@@ -38,6 +38,8 @@ mongoose
   .catch((err) => console.error("Error al conectar a MongoDB", err));
 
 // Rutas
+app.use("/api/division", require("./routes/routesDivisions"))
+app.use("/api/map", require("./routes/routesMap"))
 app.use("/api/teams", require("./routes/routesTeams"))
 app.use("/api/lastgames", require("./routes/routesLastGames"))
 app.use("/api/performance", require("./routes/routesPerformance"));
