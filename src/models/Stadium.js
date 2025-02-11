@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 
 const StadiumSchema = new mongoose.Schema(
   {
-    stadiumId: { type: Number, required: true },
+    stadiumId: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
     capacity: { type: Number, required: true },
     location: { type: String, required: true },
