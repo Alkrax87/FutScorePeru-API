@@ -1,8 +1,8 @@
-const divisionSettings = require("../models/divisionSettings");
+const DivisionSettings = require("../models/divisionSettings");
 
 const getDivisionSettings = async (req, res) => {
   try {
-    const divisionData = await divisionSettings.findOne({ category: req.params.division }).select('-_id');
+    const divisionData = await DivisionSettings.findOne({ category: req.params.division }).select('-_id');
 
     if (!divisionData) {
       return res.status(404).json({ error: `Division settings not found` });
@@ -17,13 +17,13 @@ const getDivisionSettings = async (req, res) => {
 
 const createDivisionSettings = async (req, res) => {
   try {
-    const existingDivisionSettings = await divisionSettings.findOne({ category: req.body.category });
+    const existingDivisionSettings = await DivisionSettings.findOne({ category: req.body.category });
 
     if (existingDivisionSettings) {
       return res.status(400).json({ error: "Category already exists" });
     }
 
-    const newDivisionSettings = new divisionSettings(req.body);
+    const newDivisionSettings = new DivisionSettings(req.body);
     await newDivisionSettings.save();
 
     return res.status(201).json({ message: "Successfully added new division settings" });
@@ -35,10 +35,7 @@ const createDivisionSettings = async (req, res) => {
 
 const updateDivisionSettings = async (req, res) => {
   try {
-    const updatedDivisionSettings = await divisionSettings.findOneAndUpdate(
-      { category: req.params.division },
-      req.body,
-    ).select('-_id');
+    const updatedDivisionSettings = await DivisionSettings.findOneAndUpdate({ category: req.params.division }, req.body,).select('-_id');
 
     if (!updatedDivisionSettings) {
       return res.status(404).json({ error: "Division settings not found" });
@@ -53,7 +50,7 @@ const updateDivisionSettings = async (req, res) => {
 
 const deleteDivisionSettings = async (req, res) => {
   try {
-    const deletedDivisionSettings = await divisionSettings.findOneAndDelete({ category: req.params.division });
+    const deletedDivisionSettings = await DivisionSettings.findOneAndDelete({ category: req.params.division });
 
     if (!deletedDivisionSettings) {
       return res.status(400).json({ error: "Division settings not found" });

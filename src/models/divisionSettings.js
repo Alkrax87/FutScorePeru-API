@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const divisionSettings = new mongoose.Schema(
+const divisionSettingsSchema = new mongoose.Schema(
   {
     category: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
@@ -21,4 +21,4 @@ const divisionSettings = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("divisionSettings", divisionSettings);
+module.exports = mongoose.model("DivisionSettings", divisionSettingsSchema);
