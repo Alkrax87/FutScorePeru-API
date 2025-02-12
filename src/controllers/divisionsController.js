@@ -35,7 +35,7 @@ const createDivisionSettings = async (req, res) => {
 
 const updateDivisionSettings = async (req, res) => {
   try {
-    const updatedDivisionSettings = await DivisionSettings.findOneAndUpdate({ category: req.params.division }, req.body,).select('-_id');
+    const updatedDivisionSettings = await DivisionSettings.findOneAndUpdate({ category: req.params.division }, req.body);
 
     if (!updatedDivisionSettings) {
       return res.status(404).json({ error: "Division settings not found" });
