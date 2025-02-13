@@ -1,11 +1,9 @@
 const express = require("express");
+const { getLastGames, getLastGamesByTeamId, changeLastGamesByTeamId } = require("../controllers/lastGamesController");
 const router = express.Router();
-const lastGamesController = require("../controllers/lastGamesController");
 
-router.get("/:division", lastGamesController.getAllLastGames);
-router.get("/:division/:teamId", lastGamesController.getLastGamesByTeamId);
-router.post("/:division/", lastGamesController.createLastGames);
-router.put("/:division/:teamId/:destination/:option", lastGamesController.changeLastGamesByTeamId);
-router.delete("/:division/:teamId", lastGamesController.deleteLastGames);
+router.get("/:category", getLastGames);
+router.get("/:category/:teamId", getLastGamesByTeamId);
+router.put("/:category/:teamId/:destination/:option", changeLastGamesByTeamId);
 
 module.exports = router;
