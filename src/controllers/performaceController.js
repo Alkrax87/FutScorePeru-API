@@ -1,85 +1,135 @@
-const { validateDivisionForPerformance } = require("../utils/validateDivision");
+const Team = require("../models/Team");
 const { calculatePerformance } = require("../utils/performanceCalculator");
 
-const getAllPerformance = async (req, res) => {
+const getPerformance = async (req, res) => {
   try {
-    const { division } = req.params;
-    const model = validateDivisionForPerformance(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
+    const performanceData = await Team.find({
+      category: req.params.category,
+    }).select(
+      "-_id teamId performance"
+    );
+
+    if (performanceData.length > 0) {
+      const constructedData = performanceData.map((item) => {
+        const performanceItem = { teamId: item.teamId };
+        item.performance.forEach((element => {
+          performanceItem[element.name] = {
+            pg: element.pg,
+            pe: element.pe,
+            pp: element.pp,
+            gf: element.gf,
+            gc: element.gc,
+            sanction: element.sanction,
+          }
+        }));
+        return performanceItem;
+      });
+
+      const divisionStages = {
+        1: ["apertura", "clausura", "acumulado"],
+        2: ["regional", "grupos"],
+        3: ["regular", "final"],
+      };
+
+      const stages = divisionStages[req.params.category];
+
+      const calculatedPerformance = calculatePerformance(constructedData, stages[0], stages[1], stages[2]);
+
+      return res.status(200).json(calculatedPerformance);
+    } else {
+      return res.status(404).json({ error: "Category not found" });
     }
-    const resultsData = await model.find();
-    const divisionStages = {
-      l1: ["apertura", "clausura", "acumulado"],
-      l2: ["regional", "grupos"],
-      l3: ["regular", "final"],
-    };
-    const stages = divisionStages[division];
-    const performanceData = calculatePerformance(resultsData, stages[0], stages[1], stages[2]);
-    return res.status(200).json(performanceData);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Error retrieving all performance" });
   }
 };
 
 const getPerformanceByTeamId = async (req, res) => {
   try {
-    const { division } = req.params;
-    const { teamId } = req.params;
-    const model = validateDivisionForPerformance(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
+    const performanceData = await Team.findOne({
+      category: req.params.category,
+      teamId: req.params.teamId,
+    }).select(
+      "-_id teamId performance"
+    );
+
+    if (!performanceData) {
+      return res.status(404).json({ error: "Performance not found" });
     }
-    const performance = await model.findOne({ teamId });
-    if (!performance) {
-      return res.status(404).json({ error: `Información para "${teamId}" no encontrada` });
-    }
-    return res.status(200).json(performance);
+
+    const constructedData = { teamId: performanceData.teamId };
+    performanceData.performance.forEach((element) => {
+      constructedData[element.name] = {
+        pg: element.pg,
+        pe: element.pe,
+        pp: element.pp,
+        gf: element.gf,
+        gc: element.gc,
+        sanction: element.sanction,
+      }
+    });
+
+    const divisionStages = {
+      1: ["apertura", "clausura", "acumulado"],
+      2: ["regional", "grupos"],
+      3: ["regular", "final"],
+    };
+
+    const stages = divisionStages[req.params.category];
+
+    const calculatedPerformance = calculatePerformance(constructedData, stages[0], stages[1], stages[2]);
+
+    return res.status(200).json(calculatedPerformance[0]);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Error retrieving performance" });
   }
 }
 
-const createPerformance = async (req, res) => {
+const changePerformanceByTeamId = async (req, res) => {
   try {
-    const { division } = req.params;
-    const model = validateDivisionForPerformance(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
-    }
-    const newPerformance = new model(req.body);
-    await newPerformance.save();
-    return res.status(201).json(newPerformance);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
-  }
-}
+    const { destination } = req.params;
 
-const deletePerformance = async (req, res) => {
-  try {
-    const { division } = req.params;
-    const { teamId } = req.params;
-    const model = validateDivisionForPerformance(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
+    const validDestinations = ["apertura", "clausura", "regional", "grupos", "regular", "final"];
+
+    if (!validDestinations.includes(destination)) {
+      return res.status(400).json({ error: "Invalid destination" });
     }
-    const deletePerformance = await model.findOneAndDelete({ teamId });
-    if (!deletePerformance) {
-      return res.status(404).json({ error: "Información no encontrada" });
+
+    const updatedPerformance = await Team.findOne({
+      category: req.params.category,
+      teamId: req.params.teamId,
+    });
+
+    if (!updatedPerformance) {
+      return res.status(404).json({ error: "Performance not found" });
     }
-    return res.status(204).json({ message: "Información eliminada correctamente"})
+
+    const findedPerformance = updatedPerformance.performance.find((item) => item.name === destination);
+
+    if (!findedPerformance) {
+      return res.status(404).json({ error: "Destination not found in performance" });
+    }
+
+    findedPerformance.pg = req.body.pg ?? findedPerformance.pg;
+    findedPerformance.pe = req.body.pe ?? findedPerformance.pe;
+    findedPerformance.pp = req.body.pp ?? findedPerformance.pp;
+    findedPerformance.gf = req.body.gf ?? findedPerformance.gf;
+    findedPerformance.gc = req.body.gc ?? findedPerformance.gc;
+    findedPerformance.sanction = req.body.sanction ?? findedPerformance.sanction;
+
+    await updatedPerformance.save();
+
+    return res.status(200).json({ message: "Successfully updated performance" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Failed to update performance" });
   }
 }
 
 module.exports = {
-  getAllPerformance,
+  getPerformance,
   getPerformanceByTeamId,
-  createPerformance,
-  deletePerformance,
+  changePerformanceByTeamId
 };

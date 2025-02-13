@@ -1,10 +1,9 @@
-const express = require("express")
-const router = express.Router();
-const performanceController = require("../controllers/performaceController");
+const express = require("express");
+const { getPerformance, getPerformanceByTeamId, changePerformanceByTeamId } = require("../controllers/performaceController");
+const router = express.Router();;
 
-router.get("/:division", performanceController.getAllPerformance);
-router.get("/:division/:teamId", performanceController.getPerformanceByTeamId);
-router.post("/:division", performanceController.createPerformance);
-router.delete("/:division/:teamId", performanceController.deletePerformance);
+router.get("/:category", getPerformance);
+router.get("/:category/:teamId", getPerformanceByTeamId);
+router.put("/:category/:teamId/:destination", changePerformanceByTeamId);
 
 module.exports = router;
