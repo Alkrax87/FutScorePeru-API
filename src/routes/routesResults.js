@@ -1,10 +1,9 @@
 const express = require("express");
+const { getResults, getResultsByTeamId, changeResultsByTeamId } = require("../controllers/resultsController");
 const router = express.Router();
-const resultsController = require("../controllers/resultsController");
 
-router.get("/:division", resultsController.getAllResults);
-router.get("/:division/:teamId", resultsController.getResultsByTeamId);
-router.post("/:division", resultsController.createResult);
-router.delete("/:division/:teamId", resultsController.deleteResult);
+router.get("/:category", getResults);
+router.get("/:category/:teamId", getResultsByTeamId);
+router.put("/:category/:teamId/:destination/:index", changeResultsByTeamId);
 
 module.exports = router;

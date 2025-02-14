@@ -1,77 +1,97 @@
-const { validateDivisionForResults } = require("../utils/validateDivision");
+const Team = require("../models/Team");
 
-const getAllResults = async (req, res) => {
+const getResults = async (req, res) => {
   try {
-    const { division } = req.params;
-    const model = validateDivisionForResults(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
+    const resultsData = await Team.find({
+      category: req.params.category,
+    }).select(
+      "-_id teamId results"
+    );
+
+    if (resultsData.length > 0) {
+      const constructedData = resultsData.map((item) => {
+        const resultsItem = {  teamId: item.teamId };
+        item.results.forEach((element => {
+          resultsItem[element.name] = element.score;
+        }));
+        return resultsItem;
+      });
+
+      return res.status(200).json(constructedData);
+    } else {
+      return res.status(404).json({ error: "Category not found" });
     }
-    const resultsData = await model.find();
-    return res.status(200).json(resultsData);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Error retrieving all results" });
   }
 };
 
 const getResultsByTeamId = async (req, res) => {
   try {
-    const { division } = req.params;
-    const { teamId } = req.params;
-    const model = validateDivisionForResults(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
+    const resultsData = await Team.findOne({
+      category: req.params.category,
+      teamId: req.params.teamId,
+    }).select(
+      "-_id teamId results"
+    );
+
+    if (!resultsData) {
+      return res.status(404).json({ error: "Results not found" });
     }
-    const result = await model.findOne({ teamId });
-    if (!result) {
-      return res.status(404).json({ error: `Información para "${teamId}" no encontrada` });
-    }
-    return res.status(200).json(result);
+
+    const constructedData = { teamId: resultsData.teamId };
+    resultsData.results.forEach((element) => {
+      constructedData[element.name] = element.score;
+    });
+
+    return res.status(200).json(constructedData);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Error retrieving results" });
   }
 };
 
-const createResult = async (req, res) => {
+const changeResultsByTeamId = async (req, res) => {
   try {
-    const { division } = req.params;
-    const model = validateDivisionForResults(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
-    }
-    const newResult = new model(req.body);
-    await newResult.save();
-    return res.status(201).json(newResult);
-  } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
-  }
-};
+    const { destination, index } = req.params;
 
-const deleteResult = async (req, res) => {
-  try {
-    const { division } = req.params;
-    const { teamId } = req.params;
-    const model = validateDivisionForResults(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
+    const validDestinations = ["apertura", "clausura", "regional", "grupos", "regular", "final"];
+
+    if (!validDestinations.includes(destination)) {
+      return res.status(400).json({ error: "Invalid destination" });
     }
-    const deletedResult = await model.findOneAndDelete({ teamId });
-    if (!deletedResult) {
-      return res.status(404).json({ error: "Información no encontrada" });
+
+    const newValue = req.body.score;
+
+    const updatedResults = await Team.findOne({
+      category: req.params.category,
+      teamId: req.params.teamId,
+    });
+
+    if (!updatedResults) {
+      return res.status(404).json({ error: "Results not found" });
     }
-    return res.status(204).json({ message: "Información eliminada correctamente" });
+
+    const findedResults = updatedResults.results.find((item) => item.name === req.params.destination);
+
+    if (!findedResults) {
+      return res.status(404).json({ error: "Destination not found in results" });
+    }
+
+    findedResults.score[index - 1] = newValue;
+
+    await updatedResults.save();
+
+    return res.status(200).json({ message: "Successfully updated results" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Ocurrió un error al obtener la información" });
+    return res.status(500).json({ error: "Failed to update results" });
   }
-};
+}
 
 module.exports = {
-  getAllResults,
+  getResults,
   getResultsByTeamId,
-  createResult,
-  deleteResult,
+  changeResultsByTeamId,
 };
