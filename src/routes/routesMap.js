@@ -1,7 +1,8 @@
 const express = require("express");
+const { getMapElements, changeMapElementStatus} = require("../controllers/mapController");
 const router = express.Router();
-const mapController = require("../controllers/mapController");
 
-router.get("/:division", mapController.getMapElements);
+router.get("/:category", getMapElements);
+router.put("/:category/:mapId", changeMapElementStatus);
 
 module.exports = router;
