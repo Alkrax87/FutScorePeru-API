@@ -1,103 +1,106 @@
-const { validateDivisionForManagers } = require("../utils/validateDivision");
+const Manager = require("../models/Manager");
 
-const getAllManagers = async (req, res) => {
+const getManagers = async (req, res) => {
   try {
-    const { division } = req.params;
-    const model = validateDivisionForManagers(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
+    const managersData = await Manager.find({
+      category: req.params.category,
+    }).select(
+      "-_id -category -managerId"
+    );
+
+    if (managersData.length > 0) {
+      return res.status(200).json(managersData.reverse());
+    } else {
+      return res.status(404).json({ error: "Category not found" });
     }
-    let managers = await model.find();
-    managers = managers.reverse();
-    return res.status(200).json(managers);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error al obtener Técnicos" });
+    return res.status(500).json({ error: "Error retrieving managers" });
   }
 };
 
 const getManagerByTeamId = async (req, res) => {
   try {
-    const { division } = req.params;
-    const { teamId } = req.params;
-    const model = validateDivisionForManagers(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
+    const managersData = await Manager.find({
+      category: req.params.category,
+      teamId: req.params.teamId,
+    }).select(
+      "-_id -category -managerId"
+    );
+
+    if (managersData.length > 0) {
+      return res.status(200).json(managersData.reverse());
+    } else {
+      return res.status(404).json({ error: "Category not found" });
     }
-    let managers = await model.find({ teamId });
-    managers = managers.reverse();
-    if (managers.length === 0) {
-      return res.status(404).json({ message: "Técnicos no encontrados" });
-    }
-    return res.status(200).json(managers);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error al obtener técnicos" });
+    return res.status(500).json({ error: "Error retrieving managers" });
   }
 };
 
 const createManager = async (req, res) => {
   try {
-    const { division } = req.params;
-    const model = validateDivisionForManagers(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
+    const existingManager = await Manager.findOne({
+      managerId: req.body.managerId,
+    });
+
+    if (existingManager) {
+      return res.status(400).json({ error: "Manager already exists" });
     }
-    const newManager = new model(req.body);
+
+    req.body.category = req.params.category;
+
+    const newManager = new Manager(req.body);
     await newManager.save();
-    return res.status(201).json(newManager);
+
+    return res.status(201).json({ message: "Successfully added new manager" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error al crear un técnico" });
+    return res.status(500).json({ error: "Failed to add a new manager" });
   }
 };
 
-const updateManagerByManagerId = async (req, res) => {
+const updateManager = async (req, res) => {
   try {
-    const { division } = req.params;
-    const model = validateDivisionForManagers(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
-    }
-    const { managerId } = req.params;
-    const updatedManager = await model.findOneAndUpdate(
-      { managerId },
-      req.body,
-      { new: true }
-    );
+    const updatedManager = await Manager.findOneAndUpdate({
+      category: req.params.category,
+      managerId: req.params.managerId,
+    }, req.body);
+
     if (!updatedManager) {
-      return res.status(404).json({ message: "Técnico no encontrado" });
+      return res.status(404).json({ error: "Manager not found" });
     }
-    return res.status(200).json(updatedManager);
+
+    return res.status(200).json({ message: "Successfully updated manager" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error al actualizar el técnico" });
+    return res.status(500).json({ error: "Failed to update manager" });
   }
 };
 
 const deleteManager = async (req, res) => {
   try {
-    const { division } = req.params;
-    const { teamId } = req.params;
-    const model = validateDivisionForManagers(division);
-    if (!model) {
-      return res.status(404).json({ error: `No se encontró información para la división "${division}"` });
-    }
-    const deletedManager = await model.findOneAndDelete({ teamId });
+    const deletedManager = await Manager.findOneAndDelete({
+      category: req.params.category,
+      managerId: req.params.managerId,
+    });
+
     if (!deletedManager) {
-      return res.status(404).json({ message: "Técnico no encontrado" });
+      return res.status(404).json({ error: "Manager not found" });
     }
-    return res.status(204).json({ message: "Técnico eliminado correctamente" });
+
+    return res.status(200).json({ message: "Successfully deleted manager" });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ message: "Error al eliminar un técnicos" });
+    return res.status(500).json({ error: "Failed to delete the manager" });
   }
 };
 
 module.exports = {
-  getAllManagers,
+  getManagers,
   getManagerByTeamId,
   createManager,
+  updateManager,
   deleteManager,
-  updateManagerByManagerId,
 };
