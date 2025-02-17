@@ -5,7 +5,7 @@ const getTeams = async (req, res) => {
     const teamsData = await Team.find({
       category: req.params.category,
     }).select(
-      "-_id teamId name abbreviation image imageThumbnail alt url location stadium color"
+      "-_id teamId group name abbreviation image imageThumbnail alt url location stadium color"
     );
 
     if (teamsData.length > 0) {
@@ -25,7 +25,7 @@ const getTeamById = async (req, res) => {
       category: req.params.category,
       teamId: req.params.teamId,
     }).select(
-      "-_id teamId name abbreviation image imageThumbnail alt url location stadium color"
+      "-_id teamId group name abbreviation image imageThumbnail alt url location stadium color"
     );
 
     if (!teamData) {
@@ -50,6 +50,14 @@ const createTeam = async (req, res) => {
     }
 
     req.body.category = req.params.category;
+
+    for (const lastgames of req.body.lastgames) {
+      if (typeof lastgames.games === "number" && lastgames.games > 0) {
+        lastgames.values = Array(lastgames.games).fill("");
+      } else {
+        return res.status(400).json({ error: "Invalid games value" });
+      }
+    }
 
     for (const result of req.body.results) {
       if (typeof result.games === "number" && result.games > 0) {

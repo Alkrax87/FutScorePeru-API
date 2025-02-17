@@ -118,6 +118,7 @@ const changePerformanceByTeamId = async (req, res) => {
     findedPerformance.gf = req.body.gf ?? findedPerformance.gf;
     findedPerformance.gc = req.body.gc ?? findedPerformance.gc;
     findedPerformance.sanction = req.body.sanction ?? findedPerformance.sanction;
+    findedPerformance.addition = req.body.addition ?? findedPerformance.addition;
 
     await updatedPerformance.save();
 

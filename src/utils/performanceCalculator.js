@@ -5,7 +5,7 @@ function calculatePerformance(data, stage1, stage2, stage3 = null) {
   return teams.map((team) => ({
     teamId: team.teamId,
     [stage1]: {
-      points: team[stage1].pg * 3 + team[stage1].pe - (team[stage1].sanction ?? 0),
+      points: team[stage1].pg * 3 + team[stage1].pe - (team[stage1].sanction ?? 0) + (team[stage1].addition ?? 0),
       pj: team[stage1].pg + team[stage1].pe + team[stage1].pp,
       pg: team[stage1].pg,
       pe: team[stage1].pe,
@@ -15,7 +15,7 @@ function calculatePerformance(data, stage1, stage2, stage3 = null) {
       dg: team[stage1].gf - team[stage1].gc,
     },
     [stage2]: {
-      points: team[stage2].pg * 3 + team[stage2].pe - (team[stage2].sanction ?? 0),
+      points: team[stage2].pg * 3 + team[stage2].pe - (team[stage2].sanction ?? 0) + (team[stage2].addition ?? 0),
       pj: team[stage2].pg + team[stage2].pe + team[stage2].pp,
       pg: team[stage2].pg,
       pe: team[stage2].pe,
@@ -30,7 +30,8 @@ function calculatePerformance(data, stage1, stage2, stage3 = null) {
             points:
               team[stage1].pg * 3 + team[stage1].pe +
               team[stage2].pg * 3 + team[stage2].pe -
-              ((team[stage1].sanction ?? 0) + (team[stage2].sanction ?? 0)),
+              ((team[stage1].sanction ?? 0) + (team[stage2].sanction ?? 0)) +
+              ((team[stage1].addition ?? 0) + (team[stage2].addition ?? 0)),
             pj:
               team[stage1].pg + team[stage1].pe + team[stage1].pp +
               team[stage2].pg + team[stage2].pe + team[stage2].pp,

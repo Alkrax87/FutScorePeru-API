@@ -12,7 +12,7 @@ const TeamSchema = new mongoose.Schema(
     alt: { type: String, required: true },
     url: { type: String, required: true },
     location: { type: String, required: true },
-    stadium: { type: Number, required: true },
+    stadium: { type: Number || null },
     color: {
       c1: { type: String, required: true },
       c2: { type: String, required: false },
@@ -21,7 +21,7 @@ const TeamSchema = new mongoose.Schema(
       {
         _id: false,
         name: { type: String, required: true },
-        values: { type: [String], default: Array(18).fill("") },
+        values: { type: [String], default: [] },
       },
     ],
     performance: [
@@ -34,6 +34,7 @@ const TeamSchema = new mongoose.Schema(
         gf: { type: Number, default: 0 },
         gc: { type: Number, default: 0 },
         sanction: { type: Number, default: 0 },
+        addition: { type: Number, default: 0 },
       },
     ],
     results: [
