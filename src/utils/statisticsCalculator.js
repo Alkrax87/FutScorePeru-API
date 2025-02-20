@@ -26,7 +26,7 @@ function calculateStatistics(data) {
     bestDefense: bestDefenseData,
     worstDefense: worstDefenseData,
     mostGoals: mostGoalsForData,
-    fewestGoals: fewestGoalsForData,
+    fewestGoals: fewestGoalsForData.reverse(),
     mostWins: mostWinsData,
     mostDraws: mostDrawsData,
     mostLosses: mostLossesData,
