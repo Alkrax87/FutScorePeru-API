@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+const { Schema } = require("mongoose");
+const { dbContent } = require("../config/database");
 
-const DivisionSchema = new mongoose.Schema(
+const DivisionSchema = new Schema(
   {
     category: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
@@ -21,4 +22,4 @@ const DivisionSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Division", DivisionSchema);
+module.exports = dbContent.model("Division", DivisionSchema);

@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+const { Schema } = require("mongoose");
+const { dbContent } = require("../config/database");
 
-const MapSchema = new mongoose.Schema(
+const MapSchema = new Schema(
   {
     category: { type: Number, required: true },
     model: [
@@ -19,4 +20,4 @@ const MapSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Map", MapSchema);
+module.exports = dbContent.model("Map", MapSchema);

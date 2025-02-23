@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+const { Schema } = require("mongoose");
+const { dbContent } = require("../config/database");
 
-const TeamSchema = new mongoose.Schema(
+const TeamSchema = new Schema(
   {
     teamId: { type: String, required: true, unique: true },
     category: { type: Number, required: true },
@@ -51,4 +52,4 @@ const TeamSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Team", TeamSchema);
+module.exports = dbContent.model("Team", TeamSchema);

@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+const { Schema } = require("mongoose");
+const { dbContent } = require("../config/database");
 
-const StadiumSchema = new mongoose.Schema(
+const StadiumSchema = new Schema(
   {
     stadiumId: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
@@ -14,4 +15,4 @@ const StadiumSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Stadium", StadiumSchema);
+module.exports = dbContent.model("Stadium", StadiumSchema);

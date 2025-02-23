@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+const { Schema } = require("mongoose");
+const { dbContent } = require("../config/database");
 
-const ManagerSchema = new mongoose.Schema(
+const ManagerSchema = new Schema(
   {
     category: { type: Number, required: true },
     managerId: { type: Number, required: true, unique: true },
@@ -15,4 +16,4 @@ const ManagerSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Manager", ManagerSchema);
+module.exports = dbContent.model("Manager", ManagerSchema);

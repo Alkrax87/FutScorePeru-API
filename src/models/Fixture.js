@@ -1,6 +1,7 @@
-const mongoose = require("mongoose");
+const { Schema } = require("mongoose");
+const { dbContent } = require("../config/database");
 
-const FixtureSchema = new mongoose.Schema(
+const FixtureSchema = new Schema(
   {
     category: { type: Number, required: true, unique: true },
     stages: [
@@ -25,4 +26,4 @@ const FixtureSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Fixure", FixtureSchema);
+module.exports = dbContent.model("Fixure", FixtureSchema);
