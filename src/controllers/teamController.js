@@ -5,7 +5,7 @@ const getTeams = async (req, res) => {
     const teamsData = await Team.find({
       category: req.params.category,
     }).select(
-      "-_id teamId group name abbreviation image imageThumbnail alt url location stadium color"
+      "-_id teamId groupFirstPhase groupSecondPhase name abbreviation image imageThumbnail alt url location stadium color"
     );
 
     if (teamsData.length > 0) {
@@ -25,7 +25,7 @@ const getTeamById = async (req, res) => {
       category: req.params.category,
       teamId: req.params.teamId,
     }).select(
-      "-_id teamId group name abbreviation image imageThumbnail alt url location stadium color"
+      "-_id teamId groupFirstPhase groupSecondPhase name abbreviation image imageThumbnail alt url location stadium color"
     );
 
     if (!teamData) {
@@ -84,7 +84,8 @@ const updateTeam = async (req, res) => {
       {
         $set: {
           teamId: req.params.teamId,
-          group: req.body.group ?? undefined,
+          groupFirstPhase: req.body.groupFirstPhase ?? undefined,
+          groupSecondPhase: req.body.groupSecondPhase ?? undefined,
           name: req.body.name ?? undefined,
           abbreviation: req.body.abbreviation ?? undefined,
           image: req.body.image ?? undefined,

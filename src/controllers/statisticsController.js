@@ -29,7 +29,7 @@ const getStatistics = async (req, res) => {
       const divisionStages = {
         1: ["apertura", "clausura"],
         2: ["regional", "grupos"],
-        3: ["regular", "final"],
+        3: ["regional", "final"],
       };
 
       const stages = divisionStages[req.params.category];

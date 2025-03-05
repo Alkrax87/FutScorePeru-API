@@ -28,7 +28,7 @@ const getPerformance = async (req, res) => {
       const divisionStages = {
         1: ["apertura", "clausura", "acumulado"],
         2: ["regional", "grupos"],
-        3: ["regular", "final"],
+        3: ["regional", "final"],
       };
 
       const stages = divisionStages[req.params.category];
@@ -73,7 +73,7 @@ const getPerformanceByTeamId = async (req, res) => {
     const divisionStages = {
       1: ["apertura", "clausura", "acumulado"],
       2: ["regional", "grupos"],
-      3: ["regular", "final"],
+      3: ["regional", "final"],
     };
 
     const stages = divisionStages[req.params.category];
@@ -91,7 +91,7 @@ const changePerformanceByTeamId = async (req, res) => {
   try {
     const { destination } = req.params;
 
-    const validDestinations = ["apertura", "clausura", "regional", "grupos", "regular", "final"];
+    const validDestinations = ["apertura", "clausura", "regional", "grupos", "final"];
 
     if (!validDestinations.includes(destination)) {
       return res.status(400).json({ error: "Invalid destination" });
