@@ -5,7 +5,8 @@ const TeamSchema = new Schema(
   {
     teamId: { type: String, required: true, unique: true },
     category: { type: Number, required: true },
-    group: { type: String, required: false },
+    groupFirstPhase: { type: String, required: false },
+    groupSecondPhase: { type: String, required: false },
     name: { type: String, required: true },
     abbreviation: { type: String, required: true },
     image: { type: String, required: true },
