@@ -5,6 +5,7 @@ const DivisionSchema = new Schema(
   {
     category: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
+    sup: { type: String, required: true },
     season: { type: Number, required: true },
     teams: { type: Number, required: true },
     stages: [
