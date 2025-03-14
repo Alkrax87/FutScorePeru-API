@@ -1,97 +1,98 @@
-# Proyecto de API: Resultados de Fútbol Peruano
+# Peruvian Football Results
 
-Esta API está diseñada para gestionar y servir información sobre los resultados de fútbol peruano, incluyendo detalles de los partidos y equipos, así como la posibilidad de servir imágenes relacionadas.
+<p align="center">
+  This API is designed to manage and serve information about Peruvian football results, including match and team details.
+</p>
 
-## Propósito del proyecto
+<p align="center">
+  <a href="https://nodejs.org/" target="_blank">
+      <img src="https://img.shields.io/badge/Node.js-18.x-52B255?logo=node.js" alt="Node.js">
+  </a>
+  <a href="https://expressjs.com/" target="_blank">
+    <img src="https://img.shields.io/badge/Express-4.x-black?logo=express" alt="Express">
+   </a>
+  <a href="https://www.mongodb.com/" target="_blank">
+      <img src="https://img.shields.io/badge/MongoDB-8.x-55AD47?logo=mongodb" alt="MongoDB">
+   </a>
+   <a href="https://mongoosejs.com/" target="_blank">
+      <img src="https://img.shields.io/badge/Mongoose-8.9.x-red?logo=mongoose" alt="Mongoose">
+   </a>
+</p>
 
-El objetivo principal de esta API es servir como una herramienta personal para el manejo y consulta de datos de fútbol peruano. Aunque inicialmente es de uso privado, se contempla la posibilidad de hacerla pública en el futuro como un servicio de pago.
+## Project Purpose
 
-## Tecnologías utilizadas
+The main objective of this API is to serve as a personal tool for managing and consulting Peruvian football data. Although it is initially for private use, there is a possibility of making it public in the future as a paid service.
 
-- **Node.js** y **Express**: Para construir la API.
-- **Nodemon**: Para reiniciar el servidor durante el desarrollo.
-- **Morgan**: Para registrar solicitudes HTTP.
-- **MongoDB**: Base de datos para almacenar información sobre los partidos, equipos, resultados y otros detalles.
-- **Mongoose**: Para modelar los datos de MongoDB en JS e interactuar con la base de datos.
-- **Multer**: Para gestionar imagenes en la API.
+## Technologies Used
 
-## Características principales
+- **Node.js** and  **Express**: To build the API.
+- **Nodemon**: To restart the server during development.
+- **Morgan**: To log HTTP requests.
+- **MongoDB**: Database for storing information about matches, teams, results, and other details.
+- **Mongoose**: To model MongoDB data in JavaScript and interact with the database.
 
-- **Resultados de partidos**: Consulta de resultados y detalles de los partidos.
-- **Gestor de imágenes**: Servir imágenes relacionadas con los equipos y partidos.
-- **Conexión a base de datos**: Utiliza MongoDB para almacenar y recuperar información.
+## Main Features
 
-## Requisitos del sistema
+- **Match Results**: Retrieve results and match details.
+- **Image Manager**: Serve images related to teams and matches.
+- **Database Connection**: Uses MongoDB to store and retrieve information.
 
-- Node.js v16 o superior.
-- MongoDB v5 o superior.
-- Gestor de paquetes npm.
+## System Requirements
 
-## Instalación
+- Node.js v16 or higher.
+- MongoDB v5 or higher.
+- npm package manager.
 
-1. Clona este repositorio:
+## Installation
+
+1. Clone the repository:
    ```bash
    git clone https://github.com/usuario/API-ScorePe.git
    cd API-ScorePe
    ```
 
-2. Instala las dependencias:
+2. Install dependencies:
    ```bash
    npm install
    ```
 
-3. Configura las variables de entorno:
-   - Crea un archivo `.env` en la raíz del proyecto con los siguientes campos:
-     ```env
-     PORT=3000
-     MONGO_URI=mongodb://localhost:27017/nombre_de_tu_bd
-     ```
+3. Configure environment variables:
+   - Create a `.env` file in the root directory with the following fields:
+   ```env
+   PORT=3000
+   MONGO_URI=mongodb://localhost:27017/nombre_de_tu_bd
+   ```
 
-4. Inicia el servidor en modo desarrollo:
+4. Start the server in development mode:
    ```bash
    npm run dev
    ```
-## Variables de entorno
+## Environment Variables
 
-Establecer un archivo de variables de entorno `.env` con los soguientes parámetros.
+Set up an `.env` file with the following parameters:
 
-- **MONGO_USER**: Usuario de mongoDB que se relaciona con la base de datos.
-- **MONGO_PASSWORD**: Contraseña del usuario de mongoDB.
-- **MONGO_SERVER**: Dirección IP del servidor de mongoDB.
-- **MONGO_PORT**: Puerto del servidor mongoDB.
-- **MONGO_DATABASE**: Nombre de la base de datos.
-- **PORT**: Puerto donde se ejecuta el servidor Express.
+- **MONGO_USER**: MongoDB user related to the database.
+- **MONGO_PASSWORD**: Password for the MongoDB user.
+- **MONGO_SERVER**: IP address of the MongoDB server.
+- **MONGO_PORT**: Port of the MongoDB server.
+- **MONGO_DATABASE**: Name of the database.
+- **PORT**: Port where the Express server runs.
 
-## Uso
+## Usage
 
-- Endpoints disponibles:
-  - `GET /api/teams`: Obtiene información de los equipos..
-  - `GET /api/lastgames`: Obtiene la información de los ultimos partidos.
-  - `GET /api/performance`: Obtiene las estadísticas de los equipos.
-  - `GET /api/results`: Obtiene los resultados de los partidos.
-  - `GET /api/stadium`: Obtiene información de los estadios.
-  - `GET /api/managers`: Obtiene información de los tecnicos.
+- Available endpoints:
 
-## Estructura del proyecto
-
-```
-project/
-├── src/
-│   ├── controllers/
-│   ├── models/
-│   ├── routes/
-│   ├── middleware/
-│   ├── config/
-│   ├── utils/
-│   ├── app.js
-│   └── server.js
-├── public/
-├── .env
-├── .gitignore
-├── package.json
-└── README.md
-```
+  - `GET /api/division`: Retrieves division information.
+  - `GET /api/map`: Retrieves map svg.
+  - `GET /api/teams`: Retrieves team information.
+  - `GET /api/lastgames`: Retrieves information on the latest matches.
+  - `GET /api/performance`: Retrieves team statistics.
+  - `GET /api/results`: Retrieves match results.
+  - `GET /api/statistics`: Retrieves team statistics.
+  - `GET /api/stadium`: Retrieves stadium information.
+  - `GET /api/managers`: Retrieves coach information.
+  - `GET /api/fixture`: Retrieves fixture information.
 
 ## Licencia
 
-Este proyecto no está bajo ninguna licencia pública por el momento. Todo su código y contenido está reservado para uso privado.
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
