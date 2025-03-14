@@ -5,16 +5,16 @@
 </p>
 
 <p align="center">
-  <a href="https://nodejs.org/" target="_blank">
+  <a style="text-decoration:none" href="https://nodejs.org/" target="_blank">
       <img src="https://img.shields.io/badge/Node.js-18.x-52B255?logo=node.js" alt="Node.js">
   </a>
-  <a href="https://expressjs.com/" target="_blank">
+  <a style="text-decoration:none" href="https://expressjs.com/" target="_blank">
     <img src="https://img.shields.io/badge/Express-4.x-black?logo=express" alt="Express">
    </a>
-  <a href="https://www.mongodb.com/" target="_blank">
+  <a style="text-decoration:none" href="https://www.mongodb.com/" target="_blank">
       <img src="https://img.shields.io/badge/MongoDB-8.x-55AD47?logo=mongodb" alt="MongoDB">
    </a>
-   <a href="https://mongoosejs.com/" target="_blank">
+   <a style="text-decoration:none" href="https://mongoosejs.com/" target="_blank">
       <img src="https://img.shields.io/badge/Mongoose-8.9.x-red?logo=mongoose" alt="Mongoose">
    </a>
 </p>
