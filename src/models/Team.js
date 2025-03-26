@@ -12,7 +12,6 @@ const TeamSchema = new Schema(
     image: { type: String, required: true },
     imageThumbnail: { type: String, required: true },
     alt: { type: String, required: true },
-    url: { type: String, required: true },
     location: { type: String, required: true },
     stadium: { type: Number || null },
     color: {
