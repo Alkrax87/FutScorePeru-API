@@ -29,26 +29,31 @@ const getFixtureByTeamId = async (req, res) => {
   try {
     const teamId = req.params.teamId;
 
-    const fixture = await Fixture.findOne({
+    const fixtureData = await Fixture.findOne({
       category: req.params.category,
     }).lean();
 
-    if (!fixture) {
+    if (!fixtureData) {
       return res.status(404).json({ error: "Fixture not found" });
     }
 
-    const filteredFixture = fixture.stages.map(stage => ({
-      name: stage.name,
-      matches: stage.matches?.map(matchArray =>
+    const filteredStages = fixtureData.stages.reduce((acc, stage) => {
+      const matches = stage.matches?.map(matchArray =>
         matchArray.filter(match => match.home === teamId || match.away === teamId)
-      ).filter(matchArray => matchArray.length > 0)
-    })).filter(stage => stage.matches.length > 0);
+      ).filter(matchArray => matchArray.length > 0);
 
-    if (filteredFixture.length < 1) {
+      if (matches.length > 0) {
+        acc[stage.name] = { matches };
+      }
+
+      return acc;
+    }, {});
+
+    if (Object.keys(filteredStages).length === 0) {
       return res.status(404).json({ error: "Fixture not found" });
     }
 
-    return res.status(200).json(filteredFixture);
+    return res.status(200).json(filteredStages);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Error retrieving team fixture" });
