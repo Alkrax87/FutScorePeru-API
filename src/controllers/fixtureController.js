@@ -25,6 +25,36 @@ const getFixture = async (req, res) => {
   }
 };
 
+const getFixtureByTeamId = async (req, res) => {
+  try {
+    const teamId = req.params.teamId;
+
+    const fixture = await Fixture.findOne({
+      category: req.params.category,
+    }).lean();
+
+    if (!fixture) {
+      return res.status(404).json({ error: "Fixture not found" });
+    }
+
+    const filteredFixture = fixture.stages.map(stage => ({
+      name: stage.name,
+      matches: stage.matches?.map(matchArray =>
+        matchArray.filter(match => match.home === teamId || match.away === teamId)
+      ).filter(matchArray => matchArray.length > 0)
+    })).filter(stage => stage.matches.length > 0);
+
+    if (filteredFixture.length < 1) {
+      return res.status(404).json({ error: "Fixture not found" });
+    }
+
+    return res.status(200).json(filteredFixture);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Error retrieving team fixture" });
+  }
+}
+
 const createFixture = async (req, res) => {
   try {
     const existingFixture = await Fixture.findOne({
@@ -64,6 +94,7 @@ const deleteFixture = async (req, res) => {
 
 module.exports = {
   getFixture,
+  getFixtureByTeamId,
   createFixture,
   deleteFixture,
 };
