@@ -6,6 +6,7 @@ function prepareDataForStatistics(data, stage1, stage2) {
     pp: team[stage1].pp + team[stage2].pp,
     gf: team[stage1].gf + team[stage2].gf,
     gc: team[stage1].gc + team[stage2].gc,
+    dg: team[stage1].gf + team[stage2].gf - (team[stage1].gc + team[stage2].gc),
   }));
 
   return calculateStatistics(structuredClone(mergedData));
@@ -17,19 +18,24 @@ function calculateStatistics(data) {
   const worstDefenseData = defenseSorted.slice(-8).map(({ teamId, gc }) => ({ teamId, gc })).reverse();
   const goalsForSorted = data.sort((a, b) => b.gf - a.gf);
   const mostGoalsForData = goalsForSorted.slice(0, 8).map(({ teamId, gf }) => ({ teamId, gf }));
-  const fewestGoalsForData = goalsForSorted.slice(-8).map(({ teamId, gf }) => ({ teamId, gf }));
+  const fewestGoalsForData = goalsForSorted.slice(-8).map(({ teamId, gf }) => ({ teamId, gf })).reverse();
   const mostWinsData = data.sort((a, b) => b.pg - a.pg).slice(0, 8).map(({ teamId, pg }) => ({ teamId, pg }));
   const mostDrawsData = data.sort((a, b) => b.pe - a.pe).slice(0, 8).map(({ teamId, pe }) => ({ teamId, pe }));
   const mostLossesData = data.sort((a, b) => b.pp - a.pp).slice(0, 8).map(({ teamId, pp }) => ({ teamId, pp }));
+  const goalDifferenceSorted = data.sort((a, b) => b.dg - a.dg);
+  const bestGoalDifferenceData = goalDifferenceSorted.slice(0, 8).map(({ teamId, dg }) => ({ teamId, dg }));
+  const worstGoalDifferenceData = goalDifferenceSorted.slice(-8).map(({ teamId, dg }) => ({ teamId, dg })).reverse();
 
   return {
     bestDefense: bestDefenseData,
     worstDefense: worstDefenseData,
     mostGoals: mostGoalsForData,
-    fewestGoals: fewestGoalsForData.reverse(),
+    fewestGoals: fewestGoalsForData,
     mostWins: mostWinsData,
     mostDraws: mostDrawsData,
     mostLosses: mostLossesData,
+    bestGoalDifference: bestGoalDifferenceData,
+    worstGoalDifference: worstGoalDifferenceData,
   }
 }
 
