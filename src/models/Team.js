@@ -45,6 +45,18 @@ const TeamSchema = new Schema(
         score: { type: [Number | null], default: [] },
       },
     ],
+    information: {
+      foundation: { type: Number, required: true },
+      background: { type: String, required: true },
+      website: { type: String, required: false },
+      social: {
+        facebook: { type: String, required: false },
+        instagram: { type: String, required: false },
+        twitter: { type: String, required: false },
+        youtube: { type: String, required: false },
+        tiktok: { type: String, required: false },
+      }
+    }
   },
   {
     collection: "teams",
