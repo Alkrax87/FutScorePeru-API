@@ -91,7 +91,7 @@ const getTeamPageById = async (req, res) => {
           sanction: teamData.performance[0].sanction,
           addition: teamData.performance[0].addition,
         },
-        [teamData.performance[0].name]: {
+        [teamData.performance[1].name]: {
           pg: teamData.performance[1].pg,
           pe: teamData.performance[1].pe,
           pp: teamData.performance[1].pp,
