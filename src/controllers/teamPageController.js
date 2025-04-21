@@ -31,13 +31,21 @@ const getTeamPageById = async (req, res) => {
       fixtureData.stages.forEach((stage) => {
         let teamMatches = [];
         stage.matches.forEach((matches) => {
+          let matchFound = false;
+
           matches.forEach((match) => {
-            if (match.home === req.params.teamId) {
-              teamMatches.push(match);
-            } else if (match.away === req.params.teamId) {
+            if (match.home === req.params.teamId || match.away === req.params.teamId) {
+              matchFound = true;
               teamMatches.push(match);
             }
           });
+
+          if (!matchFound) {
+            teamMatches.push({
+              home: req.params.teamId,
+              away: null,
+            });
+          }
         });
         if (teamMatches.length > 0) {
           teamFixure[stage.name] = teamMatches;
