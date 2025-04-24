@@ -54,19 +54,15 @@ const getTeamPageById = async (req, res) => {
     }
 
     let divisionTitle;
-    let tournamentTitles;
     switch (teamData.category) {
       case 1:
         divisionTitle = "Liga 1";
-        tournamentTitles = ["Apertura", "Clausura"];
         break;
       case 2:
         divisionTitle = "Liga 2";
-        tournamentTitles = ["Fase Regional", "Fase Grupos"];
         break;
       case 3:
         divisionTitle = "Liga 3";
-        tournamentTitles = ["Fase Regular", "Fase Final"];
         break;
       default:
         break;
@@ -84,7 +80,6 @@ const getTeamPageById = async (req, res) => {
       website: teamData.information.website,
       social: teamData.information.social,
       stadium: stadiumData,
-      tournamentTitles: tournamentTitles,
       lastgames: {
         [teamData.lastgames[0].name]: sortLastGames(teamData.lastgames[0].values),
         [teamData.lastgames[1].name]: sortLastGames(teamData.lastgames[1].values),
