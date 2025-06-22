@@ -33,7 +33,9 @@ app.use("/api/statistics", authenticateAPIKey, require("./routes/routesStatistic
 app.use("/api/stadiums", authenticateAPIKey, require("./routes/routesStadiums"));
 app.use("/api/managers", authenticateAPIKey, require("./routes/routesManagers"));
 app.use("/api/fixture", authenticateAPIKey, require("./routes/routesFixture"));
-app.use("/api/information", authenticateAPIKey, require("./routes/routesTeamPage"));
+app.use("/api/leagues", authenticateAPIKey, require("./routes/routesLeagues"));
+app.use("/api/information/club", authenticateAPIKey, require("./routes/routesTeamPage"));
+app.use("/api/information/league", authenticateAPIKey, require("./routes/routesLeaguePage"));
 
 // Manejo de errores
 app.use((req, res, next) => {
