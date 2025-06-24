@@ -5,7 +5,7 @@ const getLeagueInformation = async (req, res) => {
     const leagueData = await League.findOne({
       leagueId: req.params.leagueId,
     }).select(
-      "-_id location image information"
+      "-_id location image teams information"
     );
 
     if (!leagueData) {
@@ -16,7 +16,12 @@ const getLeagueInformation = async (req, res) => {
       title: leagueData.location,
       flag: leagueData.image,
       foundation: leagueData.information.foundation,
-      latestRepresentatives: leagueData.information.latestRepresentatives,
+      teams: [
+        ...leagueData.teams.map(team => ({
+          name: team.name,
+          image: team.image || null,
+        }))
+      ],
       topWinner: leagueData.information.topWinner,
       leagues: leagueData.information.leagues,
       allTimeWinners: leagueData.information.allTimeWinners,
