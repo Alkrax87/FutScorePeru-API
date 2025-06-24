@@ -25,13 +25,6 @@ const LeagueSchema = new Schema(
     ],
     information: {
       foundation: { type: Number, required: true },
-      latestRepresentatives: [
-        {
-          _id: false,
-          name: { type: String, required: false },
-          image: { type: String, required: false },
-        },
-      ],
       topWinner: {
         name: { type: String, required: true },
         image: { type: String, required: false },
