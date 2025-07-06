@@ -20,6 +20,7 @@ const getPerformance = async (req, res) => {
             gf: element.gf,
             gc: element.gc,
             sanction: element.sanction,
+            addition: element.addition ? element.addition : 0
           }
         }));
         return performanceItem;
