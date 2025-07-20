@@ -39,7 +39,7 @@ const getLastGamesByTeamId = async (req, res) => {
 
 const createLastGames = async (req, res) => {
   try {
-    const { teamId, category, phase } = req.body;
+    const { teamId, category, phases } = req.body;
 
     const existingLastGames = await LastGames.findOne({
       teamId: teamId,
@@ -49,7 +49,7 @@ const createLastGames = async (req, res) => {
       return res.status(400).json({ error: 'LastGames already exists' });
     }
 
-    if (!Array.isArray(phase) || phase.length === 0) {
+    if (!Array.isArray(phases) || phases.length === 0) {
       return res.status(400).json({ error: 'Phase must be a non-empty array' });
     }
 
@@ -58,15 +58,13 @@ const createLastGames = async (req, res) => {
       category,
     };
 
-    for (const p of phase) {
-      const { phase: phaseName, size } = p;
-
-      if (!validPhases.includes(phaseName)) {
-        return res.status(400).json({ error: `Invalid phase: ${phaseName}` });
+    for (const phase of phases) {
+      if (!validPhases.includes(phase.name)) {
+        return res.status(400).json({ error: `Invalid phase: ${phase.name}` });
       }
 
-      if (!isNaN(size) && size > 0) {
-        doc[phaseName] = Array(size).fill('');
+      if (!isNaN(phase.size) && phase.size > 0) {
+        doc[phase.name] = Array(phase.size).fill('');
       }
     }
 
