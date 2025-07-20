@@ -1,5 +1,5 @@
-const { Schema } = require("mongoose");
-const { dbContent } = require("../config/database");
+const { Schema } = require('mongoose');
+const { dbContent } = require('../config/database');
 
 const TeamSchema = new Schema(
   {
@@ -13,55 +13,16 @@ const TeamSchema = new Schema(
     imageThumbnail: { type: String, required: true },
     alt: { type: String, required: true },
     location: { type: String, required: true },
-    stadium: { type: Number || null },
+    stadium: { type: Number, required: true, default: 0 },
     color: {
       c1: { type: String, required: true },
-      c2: { type: String, required: false },
+      c2: { type: String, required: true },
     },
-    lastgames: [
-      {
-        _id: false,
-        name: { type: String, required: true },
-        values: { type: [String], default: [] },
-      },
-    ],
-    performance: [
-      {
-        _id: false,
-        name: { type: String, required: true },
-        pg: { type: Number, default: 0 },
-        pe: { type: Number, default: 0 },
-        pp: { type: Number, default: 0 },
-        gf: { type: Number, default: 0 },
-        gc: { type: Number, default: 0 },
-        sanction: { type: Number, default: 0 },
-        addition: { type: Number, default: 0 },
-      },
-    ],
-    results: [
-      {
-        _id: false,
-        name: { type: String, required: true },
-        score: { type: [Number | null], default: [] },
-      },
-    ],
-    information: {
-      foundation: { type: Number, required: true },
-      background: { type: String, required: true },
-      website: { type: String, required: false },
-      social: {
-        facebook: { type: String, required: false },
-        instagram: { type: String, required: false },
-        twitter: { type: String, required: false },
-        youtube: { type: String, required: false },
-        tiktok: { type: String, required: false },
-      }
-    }
   },
   {
-    collection: "teams",
+    collection: 'teams',
     versionKey: false,
   }
 );
 
-module.exports = dbContent.model("Team", TeamSchema);
+module.exports = dbContent.model('Team', TeamSchema);
