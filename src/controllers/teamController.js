@@ -1,41 +1,55 @@
-const Team = require("../models/Team");
+const Team = require('../models/Team');
 
 const getTeams = async (req, res) => {
   try {
+    const teamsData = await Team.find().select('-_id');
+
+    if (teamsData.length > 0) {
+      return res.status(200).json(teamsData);
+    } else {
+      return res.status(404).json({ error: 'Teams not found' });
+    }
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: 'Error retrieving Teams' });
+  }
+};
+
+const getTeamsByCategory = async (req, res) => {
+  try {
     const teamsData = await Team.find({
-      category: req.params.category,
+      category: req.params.category
     }).select(
-      "-_id category teamId groupFirstPhase groupSecondPhase name abbreviation image imageThumbnail alt location stadium color"
+      '-_id'
     );
 
     if (teamsData.length > 0) {
       return res.status(200).json(teamsData);
     } else {
-      return res.status(404).json({ error: "Category not found" });
+      return res.status(404).json({ error: 'Teams not found' });
     }
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error retrieving teams" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Error retrieving Teams' });
   }
 };
 
 const getTeamById = async (req, res) => {
   try {
     const teamData = await Team.findOne({
-      category: req.params.category,
       teamId: req.params.teamId,
     }).select(
-      "-_id category teamId groupFirstPhase groupSecondPhase name abbreviation image imageThumbnail alt location stadium color"
+      '-_id'
     );
 
     if (!teamData) {
-      return res.status(404).json({ error: "Team not found" });
+      return res.status(404).json({ error: 'Team not found' });
     }
 
     return res.status(200).json(teamData);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error retrieving team" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Error retrieving Team' });
   }
 };
 
@@ -46,90 +60,73 @@ const createTeam = async (req, res) => {
     });
 
     if (existingTeam) {
-      return res.status(400).json({ error: "Team already exists" });
-    }
-
-    req.body.category = req.params.category;
-
-    for (const lastgames of req.body.lastgames) {
-      if (typeof lastgames.games === "number" && lastgames.games > 0) {
-        lastgames.values = Array(lastgames.games).fill("");
-      } else {
-        return res.status(400).json({ error: "Invalid games value" });
-      }
-    }
-
-    for (const result of req.body.results) {
-      if (typeof result.games === "number" && result.games > 0) {
-        result.score = Array(result.games).fill(null);
-      } else {
-        return res.status(400).json({ error: "Invalid games value" });
-      }
+      return res.status(400).json({ error: 'Team already exists' });
     }
 
     const newTeam = new Team(req.body);
     await newTeam.save();
 
-    return res.status(201).json({ message: "Successfully added new team" });
+    return res.status(201).json({ message: 'Team added successfully' });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Failed to add a new team" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Failed to create Team' });
   }
 };
 
 const updateTeam = async (req, res) => {
   try {
     const updatedTeam = await Team.findOneAndUpdate(
-      { category: req.params.category, teamId: req.params.teamId },
+      { teamId: req.params.teamId },
       {
         $set: {
-          teamId: req.params.teamId,
-          groupFirstPhase: req.body.groupFirstPhase ?? undefined,
-          groupSecondPhase: req.body.groupSecondPhase ?? undefined,
-          name: req.body.name ?? undefined,
-          abbreviation: req.body.abbreviation ?? undefined,
-          image: req.body.image ?? undefined,
-          imageThumbnail: req.body.imageThumbnail ?? undefined,
-          alt: req.body.alt ?? undefined,
-          location: req.body.location ?? undefined,
-          stadium: req.body.stadium ?? undefined,
-          color: req.body.color ?? undefined,
+          teamId: req.body.teamId,
+          category: req.body.category,
+          groupFirstPhase: req.body.groupFirstPhase,
+          groupSecondPhase: req.body.groupSecondPhase,
+          name: req.body.name,
+          abbreviation: req.body.abbreviation,
+          image: req.body.image,
+          imageThumbnail: req.body.imageThumbnail,
+          alt: req.body.alt,
+          location: req.body.location,
+          stadium: req.body.stadium,
+          color: req.body.color,
         },
       },
       { runValidators: true }
     );
 
     if (!updatedTeam) {
-      return res.status(404).json({ error: "Team not found" });
+      return res.status(404).json({ error: 'Team not found' });
     }
 
-    return res.status(200).json({ message: "Successfully updated team" });
+    return res.status(200).json({ message: 'Team updated successfully' });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Failed to update the team" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Failed to update Team' });
   }
 };
 
 const deleteTeam = async (req, res) => {
   try {
     const deletedTeam = await Team.findOneAndDelete({
-      category: req.params.category,
       teamId: req.params.teamId,
     });
 
     if (!deletedTeam) {
-      return res.status(404).json({ error: "Team not found" });
+      return res.status(404).json({ error: 'Team not found' });
     }
 
-    return res.status(200).json({ message: "Successfully deleted team" });
+    return res.status(200).json({ message: 'Team deleted successfully' });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Failed to delete the team" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Failed to delete Team' });
   }
 };
 
 module.exports = {
   getTeams,
+  getTeamsByCategory,
   getTeamById,
   createTeam,
   updateTeam,
