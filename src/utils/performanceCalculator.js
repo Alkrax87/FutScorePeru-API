@@ -1,48 +1,46 @@
-function calculatePerformance(data, stage1, stage2, stage3 = null) {
+function calculatePerformance(data, phase1, phase2, phase3 = null) {
 
   const teams = Array.isArray(data) ? data : [data];
 
   return teams.map((team) => ({
     teamId: team.teamId,
-    [stage1]: {
-      points: team[stage1].pg * 3 + team[stage1].pe - (team[stage1].sanction ?? 0) + (team[stage1].addition ?? 0),
-      pj: team[stage1].pg + team[stage1].pe + team[stage1].pp,
-      pg: team[stage1].pg,
-      pe: team[stage1].pe,
-      pp: team[stage1].pp,
-      gf: team[stage1].gf,
-      gc: team[stage1].gc,
-      dg: team[stage1].gf - team[stage1].gc,
+    [phase1]: {
+      points: team[phase1].w * 3 + team[phase1].d - (team[phase1].sanction),
+      played: team[phase1].w + team[phase1].d + team[phase1].l,
+      w: team[phase1].w,
+      d: team[phase1].d,
+      l: team[phase1].l,
+      gf: team[phase1].gf,
+      ga: team[phase1].ga,
+      gd: team[phase1].gf - team[phase1].ga,
+      sanction: team[phase1].sanction,
     },
-    [stage2]: {
-      points: team[stage2].pg * 3 + team[stage2].pe - (team[stage2].sanction ?? 0) + (team[stage2].addition ?? 0),
-      pj: team[stage2].pg + team[stage2].pe + team[stage2].pp,
-      pg: team[stage2].pg,
-      pe: team[stage2].pe,
-      pp: team[stage2].pp,
-      gf: team[stage2].gf,
-      gc: team[stage2].gc,
-      dg: team[stage2].gf - team[stage2].gc,
+    [phase2]: {
+      points: team[phase2].w * 3 + team[phase2].d - (team[phase2].sanction) + (team[phase2].addition ?? 0),
+      played: team[phase2].w + team[phase2].d + team[phase2].l,
+      w: team[phase2].w,
+      d: team[phase2].d,
+      l: team[phase2].l,
+      gf: team[phase2].gf,
+      ga: team[phase2].ga,
+      gd: team[phase2].gf - team[phase2].ga,
+      addition: team[phase2].addition,
+      sanction: team[phase2].sanction,
     },
-    ...(stage3
+    ...(phase3
       ? {
-          [stage3]: {
+          [phase3]: {
             points:
-              team[stage1].pg * 3 + team[stage1].pe +
-              team[stage2].pg * 3 + team[stage2].pe -
-              ((team[stage1].sanction ?? 0) + (team[stage2].sanction ?? 0)) +
-              ((team[stage1].addition ?? 0) + (team[stage2].addition ?? 0)),
-            pj:
-              team[stage1].pg + team[stage1].pe + team[stage1].pp +
-              team[stage2].pg + team[stage2].pe + team[stage2].pp,
-            pg: team[stage1].pg + team[stage2].pg,
-            pe: team[stage1].pe + team[stage2].pe,
-            pp: team[stage1].pp + team[stage2].pp,
-            gf: team[stage1].gf + team[stage2].gf,
-            gc: team[stage1].gc + team[stage2].gc,
-            dg:
-              (team[stage1].gf - team[stage1].gc) +
-              (team[stage2].gf - team[stage2].gc),
+              team[phase1].w * 3 + team[phase1].d +
+              team[phase2].w * 3 + team[phase2].d -
+              ((team[phase1].sanction) + (team[phase2].sanction)) + (team[phase2].addition ?? 0),
+            played: team[phase1].w + team[phase1].d + team[phase1].l + team[phase2].w + team[phase2].d + team[phase2].l,
+            w: team[phase1].w + team[phase2].w,
+            d: team[phase1].d + team[phase2].d,
+            l: team[phase1].l + team[phase2].l,
+            gf: team[phase1].gf + team[phase2].gf,
+            ga: team[phase1].ga + team[phase2].ga,
+            gd: (team[phase1].gf - team[phase1].ga) + (team[phase2].gf - team[phase2].ga),
           },
         }
       : {}),
