@@ -1,137 +1,145 @@
-const Team = require("../models/Team");
-const { calculatePerformance } = require("../utils/performanceCalculator");
+const Performance = require('../models/Performance');
+const { calculatePerformance } = require('../utils/performanceCalculator');
 
-const getPerformance = async (req, res) => {
+const divisionPhases = {
+  1: ['apertura', 'clausura', 'acumulado'],
+  2: ['regional', 'grupos'],
+  3: ['regional', 'final'],
+};
+const validPhases = ['apertura', 'clausura', 'regional', 'grupos', 'final'];
+
+const getPerformanceByCategory = async (req, res) => {
   try {
-    const performanceData = await Team.find({
+    const performanceData = await Performance.find({
       category: req.params.category,
-    }).select(
-      "-_id teamId performance"
-    );
+    }).select('-_id -category');
 
     if (performanceData.length > 0) {
-      const constructedData = performanceData.map((item) => {
-        const performanceItem = { teamId: item.teamId };
-        item.performance.forEach((element => {
-          performanceItem[element.name] = {
-            pg: element.pg,
-            pe: element.pe,
-            pp: element.pp,
-            gf: element.gf,
-            gc: element.gc,
-            sanction: element.sanction,
-            addition: element.addition ? element.addition : 0
-          }
-        }));
-        return performanceItem;
-      });
-
-      const divisionStages = {
-        1: ["apertura", "clausura", "acumulado"],
-        2: ["regional", "grupos"],
-        3: ["regional", "final"],
-      };
-
-      const stages = divisionStages[req.params.category];
-
-      const calculatedPerformance = calculatePerformance(constructedData, stages[0], stages[1], stages[2]);
+      const phases = divisionPhases[req.params.category];
+      const calculatedPerformance = calculatePerformance(performanceData, phases[0], phases[1], phases[2]);
 
       return res.status(200).json(calculatedPerformance);
     } else {
-      return res.status(404).json({ error: "Category not found" });
+      return res.status(404).json({ error: 'Category not found' });
     }
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error retrieving all performance" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Error retrieving Performance' });
   }
 };
 
 const getPerformanceByTeamId = async (req, res) => {
   try {
-    const performanceData = await Team.findOne({
-      category: req.params.category,
+    const performanceData = await Performance.findOne({
       teamId: req.params.teamId,
-    }).select(
-      "-_id teamId performance"
-    );
+    }).select('-_id -category');
 
     if (!performanceData) {
-      return res.status(404).json({ error: "Performance not found" });
+      return res.status(404).json({ error: 'Performance not found' });
     }
 
-    const constructedData = { teamId: performanceData.teamId };
-    performanceData.performance.forEach((element) => {
-      constructedData[element.name] = {
-        pg: element.pg,
-        pe: element.pe,
-        pp: element.pp,
-        gf: element.gf,
-        gc: element.gc,
-        sanction: element.sanction,
-      }
-    });
-
-    const divisionStages = {
-      1: ["apertura", "clausura", "acumulado"],
-      2: ["regional", "grupos"],
-      3: ["regional", "final"],
-    };
-
-    const stages = divisionStages[req.params.category];
-
-    const calculatedPerformance = calculatePerformance(constructedData, stages[0], stages[1], stages[2]);
+    const phases = divisionPhases[req.params.category];
+    const calculatedPerformance = calculatePerformance(performanceData, phases[0], phases[1], phases[2]);
 
     return res.status(200).json(calculatedPerformance[0]);
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error retrieving performance" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Error retrieving Performance' });
   }
-}
+};
 
-const changePerformanceByTeamId = async (req, res) => {
+const createPerformance = async (req, res) => {
   try {
-    const { destination } = req.params;
+    const { teamId, category } = req.body;
 
-    const validDestinations = ["apertura", "clausura", "regional", "grupos", "final"];
+    const existingPerformance = await Performance.findOne({
+      teamId: teamId,
+    });
 
-    if (!validDestinations.includes(destination)) {
-      return res.status(400).json({ error: "Invalid destination" });
+    if (existingPerformance) {
+      return res.status(400).json({ error: 'Performance already exists' });
     }
 
-    const updatedPerformance = await Team.findOne({
-      category: req.params.category,
+    const doc = {
+      teamId,
+      category,
+    };
+
+    switch (category) {
+      case 1:
+        doc.apertura = {};
+        doc.clausura = {};
+        break;
+      case 2:
+        doc.regional = {};
+        doc.grupos = {};
+        break;
+      case 3:
+        doc.regional = {};
+        doc.final = {};
+        break;
+      default:
+        break;
+    }
+
+    const newPerformance = new Performance(doc);
+    await newPerformance.save();
+
+    return res.status(201).json({ message: 'Performance created successfully' });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: 'Failed to create Performance.' });
+  }
+};
+
+const updatePerformanceByTeamId = async (req, res) => {
+  try {
+    const { phase } = req.params;
+
+    if (!validPhases.includes(phase)) {
+      return res.status(400).json({ error: 'Invalid phase' });
+    }
+
+    const updatedPerformance = await Performance.findOne({
       teamId: req.params.teamId,
     });
 
     if (!updatedPerformance) {
-      return res.status(404).json({ error: "Performance not found" });
+      return res.status(404).json({ error: 'Performance not found' });
     }
 
-    const findedPerformance = updatedPerformance.performance.find((item) => item.name === destination);
-
-    if (!findedPerformance) {
-      return res.status(404).json({ error: "Destination not found in performance" });
-    }
-
-    findedPerformance.pg = req.body.pg ?? findedPerformance.pg;
-    findedPerformance.pe = req.body.pe ?? findedPerformance.pe;
-    findedPerformance.pp = req.body.pp ?? findedPerformance.pp;
-    findedPerformance.gf = req.body.gf ?? findedPerformance.gf;
-    findedPerformance.gc = req.body.gc ?? findedPerformance.gc;
-    findedPerformance.sanction = req.body.sanction ?? findedPerformance.sanction;
-    findedPerformance.addition = req.body.addition ?? findedPerformance.addition;
+    updatedPerformance[phase] = req.body;
 
     await updatedPerformance.save();
 
-    return res.status(200).json({ message: "Successfully updated performance" });
+    return res.status(200).json({ message: 'Successfully updated performance' });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: "Failed to update performance" });
+    return res.status(500).json({ error: 'Failed to update performance' });
+  }
+};
+
+const deletePerformance = async (req, res) => {
+  try {
+    const deletedPerformance = await Performance.findOneAndDelete({
+      teamId: req.params.teamId,
+    });
+
+    if (!deletedPerformance) {
+      return res.status(404).json({ error: 'Performance not found' });
+    }
+
+    return res.status(200).json({ message: 'Performance deleted successfully' });
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: 'Failed to delete Performance' });
   }
 }
 
 module.exports = {
-  getPerformance,
+  getPerformanceByCategory,
   getPerformanceByTeamId,
-  changePerformanceByTeamId
+  createPerformance,
+  updatePerformanceByTeamId,
+  deletePerformance,
 };
