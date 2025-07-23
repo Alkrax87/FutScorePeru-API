@@ -1,31 +1,14 @@
-const Team = require("../models/Team");
+const Performance = require("../models/Performance");
 const { calculatePerformance } = require("../utils/performanceCalculator");
 const { prepareDataForStatistics } = require("../utils/statisticsCalculator");
 
-const getStatistics = async (req, res) => {
+const getStatisticsByCategory = async (req, res) => {
   try {
-    const performanceData = await Team.find({
+    const performanceData = await Performance.find({
       category: req.params.category,
-    }).select(
-      "-_id teamId performance"
-    );
+    }).select("-_id");
 
     if (performanceData.length > 0) {
-      const constructedData = performanceData.map((item) => {
-        const performanceItem = { teamId: item.teamId };
-        item.performance.forEach((element => {
-          performanceItem[element.name] = {
-            pg: element.pg,
-            pe: element.pe,
-            pp: element.pp,
-            gf: element.gf,
-            gc: element.gc,
-            sanction: element.sanction,
-          }
-        }));
-        return performanceItem;
-      });
-
       const divisionStages = {
         1: ["apertura", "clausura"],
         2: ["regional", "grupos"],
@@ -34,7 +17,7 @@ const getStatistics = async (req, res) => {
 
       const stages = divisionStages[req.params.category];
 
-      const calculatedPerformance = calculatePerformance(constructedData, stages[0], stages[1]);
+      const calculatedPerformance = calculatePerformance(performanceData, stages[0], stages[1]);
 
       const statistics = prepareDataForStatistics(calculatedPerformance, stages[0], stages[1]);
 
@@ -43,11 +26,11 @@ const getStatistics = async (req, res) => {
       return res.status(404).json({ error: "Category not found" });
     }
   } catch (error) {
-    console.error(error);
+    console.error(error.message);
     return res.status(500).json({ error: "Error retrieving statistics" });
   }
 };
 
 module.exports = {
-  getStatistics,
+  getStatisticsByCategory,
 };
