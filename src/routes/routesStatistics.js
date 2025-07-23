@@ -1,7 +1,7 @@
 const express = require("express");
-const { getStatistics } = require("../controllers/statisticsController");
+const { getStatisticsByCategory } = require("../controllers/statisticsController");
 const router = express.Router();
 
-router.get("/:category", getStatistics);
+router.get("/:category", getStatisticsByCategory);
 
 module.exports = router;
