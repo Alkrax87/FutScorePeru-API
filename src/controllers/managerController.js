@@ -1,41 +1,55 @@
-const Manager = require("../models/Manager");
+const Manager = require('../models/Manager');
 
 const getManagers = async (req, res) => {
   try {
-    const managersData = await Manager.find({
-      category: req.params.category,
-    }).select(
-      "-_id -category -managerId"
-    );
+    const managersData = await Manager.find().select('-_id');
 
     if (managersData.length > 0) {
       return res.status(200).json(managersData.reverse());
     } else {
-      return res.status(404).json({ error: "Category not found" });
+      return res.status(404).json({ error: 'Managers not found' });
     }
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error retrieving managers" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Error retrieving Managers' });
   }
 };
 
-const getManagerByTeamId = async (req, res) => {
+const getManagersByCategory = async (req, res) => {
   try {
     const managersData = await Manager.find({
       category: req.params.category,
-      teamId: req.params.teamId,
     }).select(
-      "-_id -category -managerId"
+      '-_id'
     );
 
     if (managersData.length > 0) {
       return res.status(200).json(managersData.reverse());
     } else {
-      return res.status(404).json({ error: "Category not found" });
+      return res.status(404).json({ error: 'Managers not found' });
     }
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Error retrieving managers" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Error retrieving Managers' });
+  }
+};
+
+const getManagersByTeamId = async (req, res) => {
+  try {
+    const managersData = await Manager.find({
+      teamId: req.params.teamId,
+    }).select(
+      '-_id'
+    );
+
+    if (managersData.length > 0) {
+      return res.status(200).json(managersData.reverse());
+    } else {
+      return res.status(404).json({ error: 'Managers not found' });
+    }
+  } catch (error) {
+    console.error(error.message);
+    return res.status(500).json({ error: 'Error retrieving Managers' });
   }
 };
 
@@ -46,60 +60,68 @@ const createManager = async (req, res) => {
     });
 
     if (existingManager) {
-      return res.status(400).json({ error: "Manager already exists" });
+      return res.status(400).json({ error: 'Manager already exists' });
     }
-
-    req.body.category = req.params.category;
 
     const newManager = new Manager(req.body);
     await newManager.save();
 
-    return res.status(201).json({ message: "Successfully added new manager" });
+    return res.status(201).json({ message: 'Manager added successfully' });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Failed to add a new manager" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Failed to create Manager' });
   }
 };
 
 const updateManager = async (req, res) => {
   try {
-    const updatedManager = await Manager.findOneAndUpdate({
-      category: req.params.category,
-      managerId: req.params.managerId,
-    }, req.body);
+    const updatedManager = await Manager.findOneAndUpdate(
+      { managerId: req.params.managerId },
+      {
+        $set: {
+          managerId: req.body.managerId,
+          category: req.body.category,
+          teamId: req.body.teamId,
+          name: req.body.name,
+          cod: req.body.cod,
+          photo: req.body.photo,
+        },
+      },
+      { runValidators: true }
+    );
 
     if (!updatedManager) {
-      return res.status(404).json({ error: "Manager not found" });
+      return res.status(404).json({ error: 'Manager not found' });
     }
 
-    return res.status(200).json({ message: "Successfully updated manager" });
+    return res.status(200).json({ message: 'Manager updated successfully' });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Failed to update manager" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Failed to update Manager' });
   }
 };
 
 const deleteManager = async (req, res) => {
   try {
     const deletedManager = await Manager.findOneAndDelete({
-      category: req.params.category,
       managerId: req.params.managerId,
     });
 
     if (!deletedManager) {
-      return res.status(404).json({ error: "Manager not found" });
+      return res.status(404).json({ error: 'Manager not found' });
     }
 
-    return res.status(200).json({ message: "Successfully deleted manager" });
+    return res.status(200).json({ message: 'Manager deleted successfully' });
   } catch (error) {
-    console.error(error);
-    return res.status(500).json({ error: "Failed to delete the manager" });
+    console.error(error.message);
+    return res.status(500).json({ error: 'Failed to delete Manager' });
   }
 };
 
 module.exports = {
   getManagers,
-  getManagerByTeamId,
+  getManagersByCategory,
+  getManagersByTeamId,
   createManager,
   updateManager,
   deleteManager,
