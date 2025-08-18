@@ -23,7 +23,7 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/api/auth", require("./routes/authRoutes"));
 
 // Rutas
-app.use("/api/division", authenticateAPIKey, require("./routes/routesDivision"))
+app.use("/api/divisions", authenticateAPIKey, require("./routes/routesDivision"))
 app.use("/api/map", authenticateAPIKey, require("./routes/routesMap"))
 app.use("/api/teams", authenticateAPIKey, require("./routes/routesTeams"))
 app.use("/api/lastgames", authenticateAPIKey, require("./routes/routesLastGames"))
