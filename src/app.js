@@ -23,12 +23,13 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.use("/api/auth", require("./routes/authRoutes"));
 
 // Rutas
-app.use("/api/divisions", authenticateAPIKey, require("./routes/routesDivision"))
-app.use("/api/map", authenticateAPIKey, require("./routes/routesMap"))
-app.use("/api/teams", authenticateAPIKey, require("./routes/routesTeams"))
-app.use("/api/lastgames", authenticateAPIKey, require("./routes/routesLastGames"))
+app.use("/api/divisions", authenticateAPIKey, require("./routes/routesDivision"));
+app.use("/api/map", authenticateAPIKey, require("./routes/routesMap"));
+app.use("/api/teams", authenticateAPIKey, require("./routes/routesTeams"));
+app.use("/api/teamsCP", authenticateAPIKey, require("./routes/routesTeamsCP"));
+app.use("/api/lastgames", authenticateAPIKey, require("./routes/routesLastGames"));
 app.use("/api/performance", authenticateAPIKey, require("./routes/routesPerformance"));
-app.use("/api/results", authenticateAPIKey, require("./routes/routesResults"))
+app.use("/api/results", authenticateAPIKey, require("./routes/routesResults"));
 app.use("/api/statistics", authenticateAPIKey, require("./routes/routesStatistics"));
 app.use("/api/stadiums", authenticateAPIKey, require("./routes/routesStadiums"));
 app.use("/api/managers", authenticateAPIKey, require("./routes/routesManagers"));
