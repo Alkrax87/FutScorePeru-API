@@ -1,5 +1,5 @@
-const { Schema } = require("mongoose");
-const { dbContent } = require("../config/database");
+const { Schema } = require('mongoose');
+const { dbContent } = require('../config/database');
 
 const LeagueSchema = new Schema(
   {
@@ -11,18 +11,9 @@ const LeagueSchema = new Schema(
     location: { type: String, required: true },
     color: {
       c1: { type: String, required: true },
-      c2: { type: String, required: false },
+      c2: { type: String, required: true },
     },
-    teams: [
-      {
-        _id: false,
-        teamId: { type: String, required: true, unique: true },
-        name: { type: String, required: true },
-        abbreviation: { type: String, required: true },
-        image: { type: String, required: false },
-        city: { type: String, required: false },
-      },
-    ],
+    teams: { type: [String] },
     information: {
       foundation: { type: Number, required: true },
       topWinner: {
@@ -44,9 +35,9 @@ const LeagueSchema = new Schema(
     },
   },
   {
-    collection: "leagues",
+    collection: 'leagues',
     versionKey: false,
   }
 );
 
-module.exports = dbContent.model("league", LeagueSchema);
+module.exports = dbContent.model('league', LeagueSchema);
