@@ -65,6 +65,7 @@ const updateTeamCP = async (req, res) => {
           abbreviation: req.body.abbreviation,
           image: req.body.image,
           city: req.body.city,
+          location: req.body.location,
         },
       },
       { runValidators: true }
