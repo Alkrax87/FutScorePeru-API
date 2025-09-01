@@ -8,6 +8,7 @@ const TeamCPSchema = new Schema(
     abbreviation: { type: String, required: false },
     image: { type: String, required: false },
     city: { type: String, required: false },
+    location: { type: String, required: true },
   },
   {
     collection: 'teamsCP',
