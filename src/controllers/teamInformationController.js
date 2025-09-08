@@ -3,7 +3,6 @@ const Stadium = require('../models/Stadium');
 const Fixture = require('../models/Fixture');
 const LastGames = require('../models/LastGames');
 const Performance = require('../models/Performance');
-const sortLastGames = require('../utils/sortLastGames');
 const TeamInformation = require('../models/TeamInformation');
 
 const getTeamInformationByTeamId = async (req, res) => {
