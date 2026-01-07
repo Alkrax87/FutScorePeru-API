@@ -1,6 +1,6 @@
 const Team = require('../models/Team');
 
-module.exports.getTeams = async (req, res) => {
+module.exports.getAllTeams = async (req, res) => {
   try {
     const teamsData = await Team.find().select('-_id').sort({ category: 1, name: 1 });
 
