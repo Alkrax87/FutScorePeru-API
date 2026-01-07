@@ -1,5 +1,5 @@
-const { Schema } = require("mongoose");
-const { dbContent } = require("../config/database");
+const { Schema } = require('mongoose');
+const { dbContent } = require('../config/database');
 
 const StadiumSchema = new Schema(
   {
@@ -10,9 +10,9 @@ const StadiumSchema = new Schema(
     image: { type: String, required: true },
   },
   {
-    collection: "stadiums",
+    collection: 'stadiums',
     versionKey: false,
   }
 );
 
-module.exports = dbContent.model("Stadium", StadiumSchema);
+module.exports = dbContent.model('Stadium', StadiumSchema);
