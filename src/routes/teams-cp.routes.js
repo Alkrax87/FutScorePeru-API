@@ -1,5 +1,5 @@
 const express = require('express');
-const { getTeamsCP, getTeamCPByTeamId, createTeamCP, updateTeamCP, deleteTeamCP } = require('../controllers/teamCPController');
+const { getTeamsCP, getTeamCPByTeamId, createTeamCP, updateTeamCP, deleteTeamCP } = require('../controllers/team-cp.controller');
 const router = express.Router();
 
 router.get('/', getTeamsCP);

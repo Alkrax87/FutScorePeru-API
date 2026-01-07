@@ -4,11 +4,11 @@ const { dbContent } = require('../config/database');
 const TeamCPSchema = new Schema(
   {
     teamId: { type: String, required: true, unique: true },
-    name: { type: String, required: false },
-    abbreviation: { type: String, required: false },
+    name: { type: String, required: true },
+    abbreviation: { type: String, required: true },
     image: { type: String, required: false },
+    location: { type: String, required: false },
     city: { type: String, required: false },
-    location: { type: String, required: true },
   },
   {
     collection: 'teamsCP',
