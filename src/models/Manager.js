@@ -1,5 +1,5 @@
-const { Schema } = require("mongoose");
-const { dbContent } = require("../config/database");
+const { Schema } = require('mongoose');
+const { dbContent } = require('../config/database');
 
 const ManagerSchema = new Schema(
   {
@@ -7,13 +7,13 @@ const ManagerSchema = new Schema(
     category: { type: Number, required: true },
     teamId: { type: String, required: true },
     name: { type: String, required: true },
-    cod: { type: String },
-    photo: { type: String },
+    cod: { type: String, required: true },
+    photo: { type: String, required: false },
   },
   {
-    collection: "managers",
+    collection: 'managers',
     versionKey: false,
   }
 );
 
-module.exports = dbContent.model("Manager", ManagerSchema);
+module.exports = dbContent.model('Manager', ManagerSchema);

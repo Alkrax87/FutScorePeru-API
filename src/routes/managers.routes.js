@@ -1,10 +1,9 @@
 const express = require('express');
-const { getManagers, getManagersByCategory, getManagersByTeamId, createManager, updateManager, deleteManager } = require('../controllers/managerController');
+const { getAllManagers, getManagersByCategory, createManager, updateManager, deleteManager } = require('../controllers/manager.controller');
 const router = express.Router();
 
-router.get('/', getManagers);
+router.get('/', getAllManagers);
 router.get('/category/:category', getManagersByCategory);
-router.get('/teamId/:teamId', getManagersByTeamId);
 router.post('/', createManager);
 router.put('/:managerId', updateManager);
 router.delete('/:managerId', deleteManager);
