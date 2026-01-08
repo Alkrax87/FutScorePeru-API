@@ -65,8 +65,8 @@ module.exports.updateTeam = async (req, res) => {
         $set: {
           teamId: req.body.teamId,
           category: req.body.category,
-          groupPhase1: req.body.groupFirstPhase,
-          groupPhase2: req.body.groupSecondPhase,
+          groupPhase1: req.body.groupPhase1,
+          groupPhase2: req.body.groupPhase2,
           name: req.body.name,
           abbreviation: req.body.abbreviation,
           image: req.body.image,
