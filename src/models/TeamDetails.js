@@ -1,11 +1,11 @@
 const { Schema } = require('mongoose');
 const { dbContent } = require('../config/database');
 
-const TeamInformationSchema = new Schema(
+const TeamDetailsSchema = new Schema(
   {
     teamId: { type: String, required: true, unique: true },
-    foundation: { type: Number, required: true },
-    background: { type: String, required: true },
+    description: { type: String, required: true },
+    founded: { type: Number, required: true },
     website: { type: String, required: false },
     social: {
       facebook: { type: String, required: false },
@@ -16,9 +16,9 @@ const TeamInformationSchema = new Schema(
     },
   },
   {
-    collection: 'teamsInformation',
+    collection: 'teamDetails',
     versionKey: false,
   }
 );
 
-module.exports = dbContent.model('TeamInformation', TeamInformationSchema);
+module.exports = dbContent.model('TeamDetails', TeamDetailsSchema);
