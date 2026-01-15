@@ -67,9 +67,9 @@ module.exports.updateTeamMatchResults = async (req, res) => {
     }
 
     if (phase === '1') {
-      updatedTeamMatchResults.phase1[index - 1] = req.body.score;
+      updatedTeamMatchResults.phase1[index] = req.body.score;
     } else if (phase === '2') {
-      updatedTeamMatchResults.phase2[index - 1] = req.body.score;
+      updatedTeamMatchResults.phase2[index] = req.body.score;
     } else {
       return res.status(400).json({ error: 'Invalid phase' });
     }
