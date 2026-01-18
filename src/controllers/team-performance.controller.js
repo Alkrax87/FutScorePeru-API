@@ -1,4 +1,4 @@
-const TeamPerformance = require('../models/Performance');
+const TeamPerformance = require('../models/TeamPerformance');
 const { computeTeamPerformance } = require('../utils/computeTeamPerformance');
 
 module.exports.getTeamPerformancesByCategory = async (req, res) => {
