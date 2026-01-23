@@ -1,50 +1,33 @@
 const { Schema } = require('mongoose');
 const { dbContent } = require('../config/database');
 
-const BracketSchema = new Schema(
-  {
-    name: { type: String, required: true },
-    status: { type: Boolean, default: false },
-  },
-  { _id: false }
-);
-
 const DivisionSchema = new Schema(
   {
-    divisionId: { type: Number, required: true },
-    sup: { type: String, required: true },
+    category: { type: Number, required: true, unique: true },
     name: { type: String, required: true },
+    sup: { type: String, required: true },
     image: { type: String, required: true },
-    season: { type: Number, required: true },
     teams: { type: Number, required: true },
-    firstPhase: {
-      name: { type: String, required: true },
-      inGame: { type: Number, default: 1 },
-      status: { type: Boolean, default: false },
+    season: { type: Number, required: true },
+    phase1: {
+      name: { type: String },
+      inGame: { type: Number },
+      status: { type: Boolean },
     },
-    secondPhase: {
-      name: { type: String, required: true },
-      inGame: { type: Number, default: 1 },
-      status: { type: Boolean, default: false },
+    phase2: {
+      name: { type: String },
+      inGame: { type: Number },
+      status: { type: Boolean },
     },
-    thirdPhase: {
-      name: { type: String, required: true },
-      status: { type: Boolean, default: false },
-    },
-    brackets: {
-      bracket32: { type: BracketSchema, default: undefined },
-      bracket16: { type: BracketSchema, default: undefined },
-      bracket8: { type: BracketSchema, default: undefined },
-      bracket4: { type: BracketSchema, default: undefined },
-      bracket2: { type: BracketSchema, default: undefined },
-      bracket1: { type: BracketSchema, default: undefined },
-      bracketExtra: { type: BracketSchema, default: undefined },
+    phase3: {
+      name: { type: String },
+      status: { type: Boolean },
     },
   },
   {
     collection: 'division',
     versionKey: false,
-  }
+  },
 );
 
 module.exports = dbContent.model('Division', DivisionSchema);
