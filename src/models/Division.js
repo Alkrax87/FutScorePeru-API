@@ -9,6 +9,8 @@ const DivisionSchema = new Schema(
     image: { type: String, required: true },
     teams: { type: Number, required: true },
     season: { type: Number, required: true },
+    description: { type: String, required: true },
+    tags: [{ type: String, required: true }],
     phase1: {
       name: { type: String },
       inGame: { type: Number },
