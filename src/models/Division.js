@@ -10,6 +10,7 @@ const DivisionSchema = new Schema(
     teams: { type: Number, required: true },
     season: { type: Number, required: true },
     description: { type: String, required: true },
+    goal: { type: String, required: true },
     tags: [{ type: String, required: true }],
     phase1: {
       name: { type: String },
