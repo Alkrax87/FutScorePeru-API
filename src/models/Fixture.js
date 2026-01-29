@@ -6,7 +6,8 @@ const MatchSchema = new Schema(
     home: { type: String, required: true },
     away: { type: String, required: true },
     postponed: { type: Boolean, default: false },
-    date: { type: Date || null, default: null },
+    date: { type: Date, default: null },
+    group: { type: String, default: null },
   },
   {
     _id: false,
