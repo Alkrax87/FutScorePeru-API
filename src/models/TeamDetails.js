@@ -4,6 +4,7 @@ const { dbContent } = require('../config/database');
 const TeamDetailsSchema = new Schema(
   {
     teamId: { type: String, required: true, unique: true },
+    category: { type: Number, required: true },
     description: { type: String, required: true },
     founded: { type: Number, required: true },
     website: { type: String, required: false },

@@ -1,15 +1,15 @@
 const TeamDetails = require('../models/TeamDetails');
 
-module.exports.getAllTeamDetails = async (req, res) => {
+module.exports.getTeamDetailsByCategory = async (req, res) => {
   try {
-    const teamDetailsData = await TeamDetails.find().select('-_id');
+    const teamDetailsData = await TeamDetails.find({ category: req.params.category }).select('-_id -category');
 
     return res.status(200).json(teamDetailsData);
   } catch (error) {
     console.error(error.message);
     return res.status(500).json({ error: 'Error retrieving Team Details' });
   }
-};
+}
 
 module.exports.getTeamDetailsByTeamId = async (req, res) => {
   try {
@@ -53,6 +53,7 @@ module.exports.updateTeamDetails = async (req, res) => {
       {
         $set: {
           teamId: req.body.teamId,
+          category: req.body.category,
           description: req.body.description,
           founded: req.body.founded,
           website: req.body.website,
