@@ -5,7 +5,7 @@ const Team = new Schema(
   {
     year: { type: Number, required: true },
     name: { type: String, required: true },
-    image: { type: String, required: true },
+    image: { type: String, required: false },
     province: { type: String, required: true },
   },
   {
