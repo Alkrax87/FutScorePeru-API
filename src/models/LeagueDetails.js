@@ -19,7 +19,7 @@ const LeagueDetailsSchema = new Schema(
     founded: { type: Number, required: true },
     topChampion: {
       name: { type: String, required: true },
-      image: { type: String, required: true },
+      image: { type: String, required: false },
       province: { type: String, required: true },
       titles: { type: Number, required: true },
     },
