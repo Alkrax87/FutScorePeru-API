@@ -31,10 +31,25 @@ module.exports.getTeamProfile = async (req, res) => {
       // FIXTURE
       const fixtureData = await Fixture.findOne({ category: teamData.category }).select('-_id -category').lean();
       let teamFixtureData;
+      let nextTeamMatch;
       let latestTeamFixturePhase1;
       let latestTeamFixturePhase2;
       if (fixtureData) {
         teamFixtureData = filterMatchesByTeamId(fixtureData, req.params.teamId);
+        // Next Match
+        if (divisionData && divisionData.phase1.status) {
+          if (teamFixtureData.phase1[divisionData.phase1.inGame - 1].away === undefined) {
+            nextTeamMatch = teamFixtureData.phase1[divisionData.phase1.inGame];
+          } else {
+            nextTeamMatch = teamFixtureData.phase1[divisionData.phase1.inGame - 1];
+          }
+        } else if ((divisionData && divisionData.phase2.status) || ( divisionData && divisionData.phase3.status)) {
+          if (teamFixtureData.phase2[divisionData.phase2.inGame - 1].away === undefined) {
+            nextTeamMatch = teamFixtureData.phase2[divisionData.phase2.inGame];
+          } else {
+            nextTeamMatch = teamFixtureData.phase2[divisionData.phase2.inGame - 1];
+          }
+        }
         // Filter Phase 1
         if (divisionData && divisionData.phase1.inGame <= 5) {
           latestTeamFixturePhase1 = teamFixtureData.phase1.slice(0, 5)
@@ -56,6 +71,7 @@ module.exports.getTeamProfile = async (req, res) => {
             phase1: latestTeamFormPhase1,
             phase2: latestTeamFormPhase2,
           },
+          nextMatch: nextTeamMatch,
           latestFive: {
             phase1: latestTeamFixturePhase1,
             phase2: latestTeamFixturePhase2,
