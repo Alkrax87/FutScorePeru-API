@@ -5,7 +5,6 @@ const LeagueDetails = require('../models/LeagueDetails');
 const Division = require('../models/Division');
 const Stadium = require('../models/Stadium');
 const Fixture = require('../models/Fixture');
-const TeamForm = require('../models/TeamForm');
 const { filterMatchesByTeamId } = require('../utils/filterMatchesByTeamId');
 
 module.exports.getTeamProfile = async (req, res) => {
@@ -14,14 +13,6 @@ module.exports.getTeamProfile = async (req, res) => {
     const teamData = await Team.findOne({ teamId: req.params.teamId }).select('-_id');
     // TEAM DETAILS
     const teamDetailsData = await TeamDetails.findOne({ teamId: req.params.teamId }).select('-_id -teamId');
-    // TEAM FORM
-    const teamFormData = await TeamForm.findOne({ teamId: req.params.teamId }).select('-_id -teamId -category');
-    let latestTeamFormPhase1;
-    let latestTeamFormPhase2;
-    if (teamFormData) {
-      latestTeamFormPhase1 = teamFormData.phase1.slice(-5, teamFormData.phase1.length).sort((a, b) => (a === '' ? 1 : 0) - (b === '' ? 1 : 0));;
-      latestTeamFormPhase2 = teamFormData.phase2.slice(-5, teamFormData.phase2.length).sort((a, b) => (a === '' ? 1 : 0) - (b === '' ? 1 : 0));;
-    }
 
     if (teamData && teamDetailsData) {
       // DIVISION
@@ -67,12 +58,8 @@ module.exports.getTeamProfile = async (req, res) => {
       return res.status(200).json({
         teamData, teamDetailsData, stadiumData, teamFixtureData: teamFixtureData ?? { phase1: [], phase2: [] },
         teamOverviewData: {
-          form: {
-            phase1: latestTeamFormPhase1,
-            phase2: latestTeamFormPhase2,
-          },
           nextMatch: nextTeamMatch,
-          latestFive: {
+          latest: {
             phase1: latestTeamFixturePhase1,
             phase2: latestTeamFixturePhase2,
           }
